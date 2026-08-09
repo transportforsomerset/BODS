@@ -27,9 +27,24 @@ if (!validateBusData(data)) {
 
 const busData = data as BusData;
 
+// For sample data, simulate a fresh feed timestamp.
+// This allows us to test the rest of the pipeline without BODS.
+if (busData.source === "sample") {
+  const now = new Date().toISOString();
+
+  busData.generated_at = now;
+
+  for (const vehicle of busData.vehicles) {
+    vehicle.recorded_at = now;
+  }
+}
+
+busData.data_age_seconds = 0;
+busData.vehicle_count = busData.vehicles.length;
+
 console.log("Data validation successful.");
 console.log(`Source: ${busData.source}`);
-console.log(`Vehicles: ${busData.vehicles.length}`);
+console.log(`Vehicles: ${busData.vehicle_count}`);
 console.log(`Generated: ${busData.generated_at}`);
 
 const statusData = createStatusData(busData);

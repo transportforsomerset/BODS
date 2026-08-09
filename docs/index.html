@@ -4,106 +4,288 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Transport for Somerset – Live Buses</title>
+  <title>Transport for Somerset</title>
 
   <link
     rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
 
   <style>
+    :root {
+      --blue: #0057a8;
+      --dark-blue: #003b73;
+      --light-blue: #eaf3fb;
+      --green: #16833a;
+      --orange: #d18b00;
+      --red: #c62828;
+      --background: #f4f6f8;
+      --text: #222;
+      --muted: #66717d;
+      --white: #ffffff;
+      --border: #dce2e7;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: system-ui, sans-serif;
-      color: #222;
-      background: #f5f5f5;
+      background: var(--background);
+      color: var(--text);
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
     }
+
+    /* ---------------- Header ---------------- */
 
     header {
-      background: #0057a8;
+      background: var(--blue);
       color: white;
-      padding: 18px 24px;
     }
 
-    header h1 {
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px 0;
+    }
+
+    .brand {
+      padding-bottom: 20px;
+    }
+
+    .brand h1 {
       margin: 0;
-      font-size: 1.7rem;
+      font-size: 2rem;
+      letter-spacing: 0.02em;
     }
 
-    header p {
-      margin: 4px 0 0;
+    .brand p {
+      margin: 5px 0 0;
       opacity: 0.9;
     }
+
+    nav {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+    }
+
+    nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 7px 7px 0 0;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: var(--dark-blue);
+    }
+
+    /* ---------------- Main ---------------- */
 
     main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 25px 20px 40px;
     }
 
+    .section-heading {
+      margin-bottom: 12px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .section-heading p {
+      margin: 4px 0 0;
+      color: var(--muted);
+    }
+
+    /* ---------------- Status ---------------- */
+
     .status {
-      padding: 15px 18px;
-      border-radius: 10px;
+      padding: 14px 18px;
       margin-bottom: 15px;
-      background: #eee;
+      border-radius: 8px;
+      background: white;
       border-left: 5px solid #777;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
 
     .status.sample {
-      background: #e8f0ff;
+      background: #edf4ff;
       border-left-color: #3366cc;
     }
 
     .status.live {
-      background: #e8f7e8;
-      border-left-color: #16833a;
+      background: #edf8ef;
+      border-left-color: var(--green);
     }
 
     .status.backup {
-      background: #fff4d6;
-      border-left-color: #d18b00;
+      background: #fff7df;
+      border-left-color: var(--orange);
     }
 
     .status.stale {
-      background: #ffe1e1;
-      border-left-color: #c62828;
+      background: #fff0f0;
+      border-left-color: var(--red);
     }
 
     .status-title {
-      font-size: 1.1rem;
       font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .status-age {
+      margin-top: 2px;
+      font-size: 1rem;
     }
 
     .status-details {
-      margin-top: 4px;
-      color: #555;
-      font-size: 0.9rem;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ---------------- Map ---------------- */
+
+    .map-card {
+      background: white;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0 2px 7px rgba(0,0,0,0.12);
     }
 
     #map {
-      width: 100%;
       height: 650px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      border-radius: 7px;
     }
 
+    /* ---------------- Route selector ---------------- */
+
+    .route-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 15px 0 35px;
+    }
+
+    .route-label {
+      font-weight: 700;
+      margin-right: 3px;
+    }
+
+    .route-button {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+
+    .route-button:hover {
+      background: var(--light-blue);
+    }
+
+    .route-button.selected {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+    }
+
+    /* ---------------- Information cards ---------------- */
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 10px;
+      padding: 22px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .info-card h2 {
+      margin: 0 0 14px;
+      font-size: 1.25rem;
+    }
+
+    .placeholder {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .placeholder-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .placeholder-list li {
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .placeholder-list li:first-child {
+      border-top: 0;
+    }
+
+    /* ---------------- Footer ---------------- */
+
+    footer {
+      background: #e6eaee;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 25px 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-inner p {
+      margin: 4px 0;
+    }
+
+    /* ---------------- Bus markers ---------------- */
+
     .bus-marker {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 3px solid white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.35);
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       color: white;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
-      text-shadow: 0 1px 2px #333;
     }
 
     .route-21 {
@@ -118,63 +300,56 @@
       background: #00897b;
     }
 
+    /* ---------------- Popup ---------------- */
+
     .popup-route {
       font-size: 1.3rem;
       font-weight: 700;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .popup-destination {
-      font-size: 1rem;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .popup-details {
-      font-size: 0.9rem;
-      line-height: 1.5;
+      font-size: 0.88rem;
+      line-height: 1.55;
     }
 
-    .legend {
-      background: white;
-      padding: 10px 12px;
-      border-radius: 6px;
-      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-      line-height: 1.7;
-    }
-
-    .legend-title {
-      font-weight: 700;
-      margin-bottom: 3px;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .legend-colour {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-    }
-
-    footer {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 15px 20px 30px;
-      color: #666;
-      font-size: 0.85rem;
-    }
+    /* ---------------- Mobile ---------------- */
 
     @media (max-width: 700px) {
+
+      .header-inner {
+        padding-top: 18px;
+      }
+
+      .brand h1 {
+        font-size: 1.55rem;
+      }
+
+      nav a {
+        padding: 10px 11px;
+        font-size: 0.9rem;
+      }
+
+      main {
+        padding: 18px 12px 30px;
+      }
+
       #map {
         height: 500px;
       }
 
-      header h1 {
-        font-size: 1.4rem;
+      .info-grid {
+        grid-template-columns: 1fr;
       }
+
+      .section-heading h2 {
+        font-size: 1.3rem;
+      }
+
     }
   </style>
 </head>
@@ -182,30 +357,119 @@
 <body>
 
 <header>
-  <h1>Transport for Somerset</h1>
-  <p>Live bus information</p>
+
+  <div class="header-inner">
+
+    <div class="brand">
+      <h1>Transport for Somerset</h1>
+      <p>Local transport information for Somerset</p>
+    </div>
+
+    <nav>
+      <a href="#" class="active">Home</a>
+      <a href="#live-buses">Live Buses</a>
+      <a href="#news">News</a>
+      <a href="#diversions">Diversions</a>
+      <a href="#blog">Blog</a>
+      <a href="#about">About</a>
+    </nav>
+
+  </div>
+
 </header>
 
 <main>
 
-  <div class="status" id="status">
-    Loading bus data...
-  </div>
+  <section id="live-buses">
 
-  <div id="map"></div>
+    <div class="section-heading">
+      <h2>Live Bus Information</h2>
+      <p>See buses currently being tracked across Somerset.</p>
+    </div>
+
+    <div class="status" id="status">
+      Loading bus data...
+    </div>
+
+    <div class="map-card">
+      <div id="map"></div>
+    </div>
+
+    <div class="route-bar">
+
+      <span class="route-label">Routes:</span>
+
+      <button
+        class="route-button selected"
+        data-route="all"
+      >
+        All
+      </button>
+
+    </div>
+
+  </section>
+
+  <section class="info-grid">
+
+    <article class="info-card" id="news">
+
+      <h2>Latest News</h2>
+
+      <ul class="placeholder-list">
+        <li>Transport for Somerset is currently under development.</li>
+        <li>Live bus information is being tested.</li>
+        <li>More local transport information will appear here soon.</li>
+      </ul>
+
+    </article>
+
+    <article class="info-card" id="diversions">
+
+      <h2>Planned Diversions</h2>
+
+      <p class="placeholder">
+        Planned diversions and service changes will appear here.
+      </p>
+
+    </article>
+
+  </section>
 
 </main>
 
 <footer>
-  Map data ©
-  <a href="https://www.openstreetmap.org/copyright" target="_blank">
-    OpenStreetMap contributors
-  </a>
+
+  <div class="footer-inner">
+
+    <p>
+      <strong>Transport for Somerset</strong>
+    </p>
+
+    <p>
+      Independent local transport information for Somerset.
+    </p>
+
+    <p>
+      Map data ©
+      <a
+        href="https://www.openstreetmap.org/copyright"
+        target="_blank"
+        rel="noopener"
+      >
+        OpenStreetMap contributors
+      </a>
+    </p>
+
+    <p>
+      © Transport for Somerset 2026
+    </p>
+
+  </div>
+
 </footer>
 
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
@@ -220,10 +484,16 @@
     }
   ).addTo(map);
 
-  // Initial view: Taunton
-  map.setView([51.0149, -3.1024], 11);
+  map.setView(
+    [51.0149, -3.1024],
+    11
+  );
 
   const markers = new Map();
+
+  let allVehicles = [];
+
+  let selectedRoute = "all";
 
   const routeColours = {
     "21": "route-21",
@@ -234,28 +504,22 @@
   function formatAge(seconds) {
 
     if (seconds < 10) {
-      return "just now";
+      return "Updated just now";
     }
 
     if (seconds < 60) {
-      return `${seconds} seconds ago`;
+      return `Updated ${seconds} seconds ago`;
     }
 
     const minutes = Math.floor(seconds / 60);
 
     if (minutes < 60) {
-      return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+      return `Updated ${minutes} minute${minutes === 1 ? "" : "s"} ago`;
     }
 
     const hours = Math.floor(minutes / 60);
 
-    if (hours < 24) {
-      return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-    }
-
-    const days = Math.floor(hours / 24);
-
-    return `${days} day${days === 1 ? "" : "s"} ago`;
+    return `Updated ${hours} hour${hours === 1 ? "" : "s"} ago`;
   }
 
   function formatTime(timestamp) {
@@ -268,7 +532,7 @@
 
   }
 
-  function getStatusTitle(status) {
+  function statusTitle(status) {
 
     switch (status) {
 
@@ -297,22 +561,30 @@
       routeColours[vehicle.route] ?? "";
 
     return L.divIcon({
+
       className: "",
+
       html: `
         <div class="bus-marker ${colourClass}">
           🚌
         </div>
       `,
-      iconSize: [34, 34],
-      iconAnchor: [17, 17],
-      popupAnchor: [0, -17]
+
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+      popupAnchor: [0, -18]
+
     });
 
   }
 
   function createPopup(vehicle) {
 
+    const mph =
+      vehicle.speed_mps * 2.23694;
+
     return `
+
       <div class="popup-route">
         Route ${vehicle.route}
       </div>
@@ -322,6 +594,7 @@
       </div>
 
       <div class="popup-details">
+
         <strong>Operator:</strong>
         ${vehicle.operator}<br>
 
@@ -329,29 +602,43 @@
         ${vehicle.vehicle_id}<br>
 
         <strong>Speed:</strong>
-        ${(vehicle.speed_mps * 2.23694).toFixed(1)} mph<br>
+        ${mph.toFixed(1)} mph<br>
 
         <strong>Recorded:</strong>
         ${formatTime(vehicle.recorded_at)}
+
       </div>
+
     `;
 
   }
 
-  function updateBusMarkers(vehicles) {
+  function updateMarkers() {
 
-    const activeVehicleIds = new Set();
+    const visibleVehicles =
+      selectedRoute === "all"
+        ? allVehicles
+        : allVehicles.filter(
+            vehicle =>
+              vehicle.route === selectedRoute
+          );
 
-    for (const vehicle of vehicles) {
+    const activeIds =
+      new Set(
+        visibleVehicles.map(
+          vehicle => vehicle.vehicle_id
+        )
+      );
 
-      activeVehicleIds.add(vehicle.vehicle_id);
+    for (const vehicle of visibleVehicles) {
 
       const position = [
         vehicle.latitude,
         vehicle.longitude
       ];
 
-      let marker = markers.get(vehicle.vehicle_id);
+      let marker =
+        markers.get(vehicle.vehicle_id);
 
       if (!marker) {
 
@@ -385,18 +672,19 @@
           createPopup(vehicle)
         );
 
+        if (!map.hasLayer(marker)) {
+          marker.addTo(map);
+        }
+
       }
 
     }
 
-    // Remove buses which have disappeared from the feed.
-    for (const [vehicleId, marker] of markers) {
+    for (const [id, marker] of markers) {
 
-      if (!activeVehicleIds.has(vehicleId)) {
+      if (!activeIds.has(id)) {
 
         map.removeLayer(marker);
-
-        markers.delete(vehicleId);
 
       }
 
@@ -404,63 +692,84 @@
 
   }
 
-  function addLegend(vehicles) {
+  function buildRouteButtons() {
 
-    const routes = [
-      ...new Set(
-        vehicles.map(vehicle => vehicle.route)
-      )
-    ].sort();
+    const routeBar =
+      document.querySelector(".route-bar");
 
-    const legend = L.control({
-      position: "bottomright"
-    });
+    const routes =
+      [...new Set(
+        allVehicles.map(
+          vehicle => vehicle.route
+        )
+      )].sort();
 
-    legend.onAdd = function () {
+    for (const route of routes) {
 
-      const div = L.DomUtil.create(
-        "div",
-        "legend"
+      const button =
+        document.createElement("button");
+
+      button.className = "route-button";
+
+      button.dataset.route = route;
+
+      button.textContent =
+        `Route ${route}`;
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          selectedRoute = route;
+
+          document
+            .querySelectorAll(".route-button")
+            .forEach(
+              item =>
+                item.classList.remove("selected")
+            );
+
+          button.classList.add("selected");
+
+          updateMarkers();
+
+        }
       );
 
-      div.innerHTML =
-        `<div class="legend-title">Routes</div>`;
+      routeBar.appendChild(button);
 
-      for (const route of routes) {
+    }
 
-        const colour =
-          route === "21"
-            ? "#e53935"
-            : route === "22"
-              ? "#8e24aa"
-              : route === "28"
-                ? "#00897b"
-                : "#555";
+    const allButton =
+      document.querySelector(
+        '[data-route="all"]'
+      );
 
-        div.innerHTML += `
-          <div class="legend-item">
-            <span
-              class="legend-colour"
-              style="background:${colour}"
-            ></span>
+    allButton.addEventListener(
+      "click",
+      () => {
 
-            Route ${route}
-          </div>
-        `;
+        selectedRoute = "all";
+
+        document
+          .querySelectorAll(".route-button")
+          .forEach(
+            item =>
+              item.classList.remove("selected")
+          );
+
+        allButton.classList.add("selected");
+
+        updateMarkers();
 
       }
-
-      return div;
-
-    };
-
-    legend.addTo(map);
+    );
 
   }
 
   let firstLoad = true;
 
-  async function loadBusData() {
+  async function loadData() {
 
     try {
 
@@ -472,13 +781,17 @@
       ] = await Promise.all([
 
         fetch(
-          `buses.json?cacheBust=${cacheBust}`,
-          { cache: "no-store" }
+          `buses.json?${cacheBust}`,
+          {
+            cache: "no-store"
+          }
         ),
 
         fetch(
-          `status.json?cacheBust=${cacheBust}`,
-          { cache: "no-store" }
+          `status.json?${cacheBust}`,
+          {
+            cache: "no-store"
+          }
         )
 
       ]);
@@ -495,20 +808,28 @@
         );
       }
 
-      const data = await busResponse.json();
-      const status = await statusResponse.json();
+      const data =
+        await busResponse.json();
 
-      updateBusMarkers(data.vehicles);
+      const status =
+        await statusResponse.json();
 
-      const generatedTime =
+      allVehicles =
+        data.vehicles;
+
+      updateMarkers();
+
+      const generated =
         new Date(status.generated_at);
 
-      const ageSeconds = Math.max(
-        0,
-        Math.floor(
-          (Date.now() - generatedTime.getTime()) / 1000
-        )
-      );
+      const ageSeconds =
+        Math.max(
+          0,
+          Math.floor(
+            (Date.now() -
+              generated.getTime()) / 1000
+          )
+        );
 
       const statusElement =
         document.getElementById("status");
@@ -517,35 +838,54 @@
         `status ${status.status}`;
 
       statusElement.innerHTML = `
+
         <div class="status-title">
-          ${getStatusTitle(status.status)}
+          ${statusTitle(status.status)}
         </div>
 
-        <div>
+        <div class="status-age">
           ${formatAge(ageSeconds)}
         </div>
 
         <div class="status-details">
-          ${data.vehicle_count} vehicles ·
-          Data timestamp ${formatTime(status.generated_at)}
+          ${data.vehicle_count}
+          vehicles ·
+          Data timestamp
+          ${formatTime(status.generated_at)}
         </div>
+
       `;
 
-      // On first load, automatically frame all buses.
-      if (firstLoad && data.vehicles.length > 0) {
+      if (
+        firstLoad &&
+        data.vehicles.length > 0
+      ) {
 
-        const bounds = L.latLngBounds(
-          data.vehicles.map(vehicle => [
-            vehicle.latitude,
-            vehicle.longitude
-          ])
-        );
+        const bounds =
+          L.latLngBounds(
+            data.vehicles.map(
+              vehicle => [
+                vehicle.latitude,
+                vehicle.longitude
+              ]
+            )
+          );
 
         map.fitBounds(
           bounds.pad(0.15)
         );
 
         firstLoad = false;
+
+      }
+
+      if (
+        document.querySelectorAll(
+          ".route-button"
+        ).length === 1
+      ) {
+
+        buildRouteButtons();
 
       }
 
@@ -560,24 +900,25 @@
         "status stale";
 
       statusElement.innerHTML = `
+
         <div class="status-title">
           🔴 Data unavailable
         </div>
 
-        <div>
-          Unable to retrieve live bus data.
+        <div class="status-age">
+          Unable to retrieve bus data.
         </div>
+
       `;
 
     }
 
   }
 
-  loadBusData();
+  loadData();
 
-  // Refresh the bus data every 10 seconds.
   setInterval(
-    loadBusData,
+    loadData,
     10000
   );
 

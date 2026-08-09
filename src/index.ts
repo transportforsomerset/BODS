@@ -4,8 +4,8 @@ import { validateBusData } from "./validate";
 import { createStatusData } from "./status";
 
 const inputFile = "data/sample-buses.json";
-const busDataFile = "data/buses.json";
-const statusFile = "data/status.json";
+const busDataFile = "docs/buses.json";
+const statusFile = "docs/status.json";
 
 console.log("Transport for Somerset bus-data collector");
 console.log(`Reading ${inputFile}...`);

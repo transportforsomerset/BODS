@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Transport for Somerset – Open Bus Data</title>
 
   <style>
@@ -12,13 +13,45 @@
       margin: 40px auto;
       padding: 0 20px;
       line-height: 1.5;
+      color: #222;
     }
 
     .status {
-      padding: 15px;
-      border-radius: 8px;
-      background: #eee;
+      padding: 18px;
+      border-radius: 10px;
       margin: 20px 0;
+      background: #eee;
+    }
+
+    .status.sample {
+      background: #e8f0ff;
+      border-left: 5px solid #3366cc;
+    }
+
+    .status.live {
+      background: #e8f7e8;
+      border-left: 5px solid #16833a;
+    }
+
+    .status.backup {
+      background: #fff4d6;
+      border-left: 5px solid #d18b00;
+    }
+
+    .status.stale {
+      background: #ffe1e1;
+      border-left: 5px solid #c62828;
+    }
+
+    .status-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .status-details {
+      color: #555;
+      font-size: 0.95rem;
     }
 
     a {
@@ -28,6 +61,7 @@
 </head>
 
 <body>
+
   <h1>Transport for Somerset</h1>
 
   <p>
@@ -46,21 +80,118 @@
   </ul>
 
   <script>
-    fetch("status.json")
-      .then(response => response.json())
-      .then(status => {
-        document.getElementById("status").innerHTML = `
-          <strong>Status:</strong> ${status.status}<br>
-          <strong>Source:</strong> ${status.source}<br>
-          <strong>Vehicles:</strong> ${status.vehicle_count}<br>
-          <strong>Generated:</strong> ${status.generated_at}<br>
-          <strong>Age:</strong> ${status.data_age_seconds} seconds
-        `;
-      })
-      .catch(() => {
-        document.getElementById("status").textContent =
-          "Unable to retrieve bus data status.";
+    function formatAge(seconds) {
+      if (seconds < 10) {
+        return "just now";
+      }
+
+      if (seconds < 60) {
+        return `${seconds} seconds ago`;
+      }
+
+      const minutes = Math.floor(seconds / 60);
+
+      if (minutes < 60) {
+        return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+      }
+
+      const hours = Math.floor(minutes / 60);
+
+      if (hours < 24) {
+        return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+      }
+
+      const days = Math.floor(hours / 24);
+
+      return `${days} day${days === 1 ? "" : "s"} ago`;
+    }
+
+    function formatLocalTime(timestamp) {
+      return new Date(timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
       });
+    }
+
+    function getStatusTitle(status) {
+      switch (status) {
+        case "live":
+          return "🟢 Live bus data";
+
+        case "backup":
+          return "🟠 Backup bus data";
+
+        case "stale":
+          return "🔴 Stale bus data";
+
+        case "sample":
+          return "🔵 Sample bus data";
+
+        default:
+          return "Bus data";
+      }
+    }
+
+    async function loadStatus() {
+      const element = document.getElementById("status");
+
+      try {
+        const response = await fetch(
+          `status.json?cacheBust=${Date.now()}`,
+          {
+            cache: "no-store"
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const status = await response.json();
+
+        const generatedTime = new Date(status.generated_at);
+        const ageSeconds = Math.max(
+          0,
+          Math.floor((Date.now() - generatedTime.getTime()) / 1000)
+        );
+
+        element.className = `status ${status.status}`;
+
+        element.innerHTML = `
+          <div class="status-title">
+            ${getStatusTitle(status.status)}
+          </div>
+
+          <div>
+            ${formatAge(ageSeconds)}
+          </div>
+
+          <div class="status-details">
+            ${status.vehicle_count} vehicles ·
+            Data timestamp ${formatLocalTime(status.generated_at)}
+          </div>
+        `;
+
+      } catch (error) {
+        console.error(error);
+
+        element.className = "status stale";
+
+        element.innerHTML = `
+          <div class="status-title">
+            🔴 Data unavailable
+          </div>
+
+          <div>
+            Unable to retrieve the bus data status.
+          </div>
+        `;
+      }
+    }
+
+    loadStatus();
   </script>
+
 </body>
 </html>

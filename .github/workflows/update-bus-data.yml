@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  BODS_API_KEY: ${{ secrets.BODS_API_KEY }}
+
 jobs:
   update:
     runs-on: ubuntu-latest

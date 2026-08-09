@@ -3,32 +3,32 @@ import type { BusData } from "./types";
 import { validateBusData } from "./validate";
 import { createStatusData } from "./status";
 
+const inputFile = "data/sample-buses.json";
 const busDataFile = "data/buses.json";
 const statusFile = "data/status.json";
 
 console.log("Transport for Somerset bus-data collector");
-console.log(`Reading ${busDataFile}...`);
+console.log(`Reading ${inputFile}...`);
 
-const contents = await readFile(busDataFile, "utf8");
+const contents = await readFile(inputFile, "utf8");
 
 let data: unknown;
 
 try {
   data = JSON.parse(contents);
 } catch {
-  console.error("ERROR: buses.json is not valid JSON.");
+  console.error("ERROR: sample-buses.json is not valid JSON.");
   process.exit(1);
 }
 
 if (!validateBusData(data)) {
-  console.error("ERROR: buses.json failed validation.");
+  console.error("ERROR: sample bus data failed validation.");
   process.exit(1);
 }
 
 const busData = data as BusData;
 
-// For sample data, simulate a fresh feed timestamp.
-// This allows us to test the rest of the pipeline without BODS.
+// Sample mode simulates a freshly received feed.
 if (busData.source === "sample") {
   const now = new Date().toISOString();
 
@@ -46,6 +46,15 @@ console.log("Data validation successful.");
 console.log(`Source: ${busData.source}`);
 console.log(`Vehicles: ${busData.vehicle_count}`);
 console.log(`Generated: ${busData.generated_at}`);
+
+// Write the website-facing bus data.
+await writeFile(
+  busDataFile,
+  `${JSON.stringify(busData, null, 2)}\n`,
+  "utf8"
+);
+
+console.log(`Wrote ${busDataFile}`);
 
 const statusData = createStatusData(busData);
 
@@ -72,5 +81,4 @@ for (const vehicle of busData.vehicles) {
 }
 
 console.log("");
-console.log(`Wrote ${statusFile}`);
 console.log("Finished successfully.");

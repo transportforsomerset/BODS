@@ -1,0 +1,9 @@
+{
+  "status": "sample",
+  "source": "sample",
+  "generated_at": "2026-08-09T16:05:30Z",
+  "checked_at": "2026-08-09T19:12:00Z",
+  "vehicle_count": 6,
+  "data_age_seconds": 11190,
+  "message": "Sample development data"
+}

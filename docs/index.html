@@ -4,195 +4,589 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Transport for Somerset – Open Bus Data</title>
+  <title>Transport for Somerset – Live Buses</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIINfQ3Pz6w8G8Gq6Hf1xJfJ5G6J7J7J8J8="
+    crossorigin=""
+  >
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
       font-family: system-ui, sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-      line-height: 1.5;
       color: #222;
+      background: #f5f5f5;
+    }
+
+    header {
+      background: #0057a8;
+      color: white;
+      padding: 18px 24px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
     }
 
     .status {
-      padding: 18px;
+      padding: 15px 18px;
       border-radius: 10px;
-      margin: 20px 0;
+      margin-bottom: 15px;
       background: #eee;
+      border-left: 5px solid #777;
     }
 
     .status.sample {
       background: #e8f0ff;
-      border-left: 5px solid #3366cc;
+      border-left-color: #3366cc;
     }
 
     .status.live {
       background: #e8f7e8;
-      border-left: 5px solid #16833a;
+      border-left-color: #16833a;
     }
 
     .status.backup {
       background: #fff4d6;
-      border-left: 5px solid #d18b00;
+      border-left-color: #d18b00;
     }
 
     .status.stale {
       background: #ffe1e1;
-      border-left: 5px solid #c62828;
+      border-left-color: #c62828;
     }
 
     .status-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 6px;
     }
 
     .status-details {
+      margin-top: 4px;
       color: #555;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    a {
-      color: #0057b8;
+    #map {
+      width: 100%;
+      height: 650px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .bus-marker {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      text-shadow: 0 1px 2px #333;
+    }
+
+    .route-21 {
+      background: #e53935;
+    }
+
+    .route-22 {
+      background: #8e24aa;
+    }
+
+    .route-28 {
+      background: #00897b;
+    }
+
+    .popup-route {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .popup-destination {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .popup-details {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .legend {
+      background: white;
+      padding: 10px 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+      line-height: 1.7;
+    }
+
+    .legend-title {
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .legend-colour {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px 20px 30px;
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      #map {
+        height: 500px;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
+<header>
   <h1>Transport for Somerset</h1>
+  <p>Live bus information</p>
+</header>
 
-  <p>
-    Open bus data development endpoint.
-  </p>
+<main>
 
   <div class="status" id="status">
-    Loading data status...
+    Loading bus data...
   </div>
 
-  <h2>Data</h2>
+  <div id="map"></div>
 
-  <ul>
-    <li><a href="buses.json">buses.json</a></li>
-    <li><a href="status.json">status.json</a></li>
-  </ul>
+</main>
 
-  <script>
-    function formatAge(seconds) {
-      if (seconds < 10) {
-        return "just now";
-      }
+<footer>
+  Map data ©
+  <a href="https://www.openstreetmap.org/copyright" target="_blank">
+    OpenStreetMap contributors
+  </a>
+</footer>
 
-      if (seconds < 60) {
-        return `${seconds} seconds ago`;
-      }
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+  crossorigin="">
+</script>
 
-      const minutes = Math.floor(seconds / 60);
+<script>
 
-      if (minutes < 60) {
-        return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
-      }
+  const map = L.map("map");
 
-      const hours = Math.floor(minutes / 60);
+  L.tileLayer(
+    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }
+  ).addTo(map);
 
-      if (hours < 24) {
-        return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-      }
+  // Initial view: Taunton
+  map.setView([51.0149, -3.1024], 11);
 
-      const days = Math.floor(hours / 24);
+  const markers = new Map();
 
-      return `${days} day${days === 1 ? "" : "s"} ago`;
+  const routeColours = {
+    "21": "route-21",
+    "22": "route-22",
+    "28": "route-28"
+  };
+
+  function formatAge(seconds) {
+
+    if (seconds < 10) {
+      return "just now";
     }
 
-    function formatLocalTime(timestamp) {
-      return new Date(timestamp).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-      });
+    if (seconds < 60) {
+      return `${seconds} seconds ago`;
     }
 
-    function getStatusTitle(status) {
-      switch (status) {
-        case "live":
-          return "🟢 Live bus data";
+    const minutes = Math.floor(seconds / 60);
 
-        case "backup":
-          return "🟠 Backup bus data";
-
-        case "stale":
-          return "🔴 Stale bus data";
-
-        case "sample":
-          return "🔵 Sample bus data";
-
-        default:
-          return "Bus data";
-      }
+    if (minutes < 60) {
+      return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
     }
 
-    async function loadStatus() {
-      const element = document.getElementById("status");
+    const hours = Math.floor(minutes / 60);
 
-      try {
-        const response = await fetch(
-          `status.json?cacheBust=${Date.now()}`,
+    if (hours < 24) {
+      return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+    }
+
+    const days = Math.floor(hours / 24);
+
+    return `${days} day${days === 1 ? "" : "s"} ago`;
+  }
+
+  function formatTime(timestamp) {
+
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+
+  }
+
+  function getStatusTitle(status) {
+
+    switch (status) {
+
+      case "live":
+        return "🟢 Live bus data";
+
+      case "backup":
+        return "🟠 Backup bus data";
+
+      case "stale":
+        return "🔴 Stale bus data";
+
+      case "sample":
+        return "🔵 Sample bus data";
+
+      default:
+        return "Bus data";
+
+    }
+
+  }
+
+  function createBusIcon(vehicle) {
+
+    const colourClass =
+      routeColours[vehicle.route] ?? "";
+
+    return L.divIcon({
+      className: "",
+      html: `
+        <div class="bus-marker ${colourClass}">
+          🚌
+        </div>
+      `,
+      iconSize: [34, 34],
+      iconAnchor: [17, 17],
+      popupAnchor: [0, -17]
+    });
+
+  }
+
+  function createPopup(vehicle) {
+
+    return `
+      <div class="popup-route">
+        Route ${vehicle.route}
+      </div>
+
+      <div class="popup-destination">
+        ${vehicle.origin} → ${vehicle.destination}
+      </div>
+
+      <div class="popup-details">
+        <strong>Operator:</strong>
+        ${vehicle.operator}<br>
+
+        <strong>Vehicle:</strong>
+        ${vehicle.vehicle_id}<br>
+
+        <strong>Speed:</strong>
+        ${(vehicle.speed_mps * 2.23694).toFixed(1)} mph<br>
+
+        <strong>Recorded:</strong>
+        ${formatTime(vehicle.recorded_at)}
+      </div>
+    `;
+
+  }
+
+  function updateBusMarkers(vehicles) {
+
+    const activeVehicleIds = new Set();
+
+    for (const vehicle of vehicles) {
+
+      activeVehicleIds.add(vehicle.vehicle_id);
+
+      const position = [
+        vehicle.latitude,
+        vehicle.longitude
+      ];
+
+      let marker = markers.get(vehicle.vehicle_id);
+
+      if (!marker) {
+
+        marker = L.marker(
+          position,
           {
-            cache: "no-store"
+            icon: createBusIcon(vehicle)
           }
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        const status = await response.json();
-
-        const generatedTime = new Date(status.generated_at);
-        const ageSeconds = Math.max(
-          0,
-          Math.floor((Date.now() - generatedTime.getTime()) / 1000)
+        marker.bindPopup(
+          createPopup(vehicle)
         );
 
-        element.className = `status ${status.status}`;
+        marker.addTo(map);
 
-        element.innerHTML = `
-          <div class="status-title">
-            ${getStatusTitle(status.status)}
-          </div>
+        markers.set(
+          vehicle.vehicle_id,
+          marker
+        );
 
-          <div>
-            ${formatAge(ageSeconds)}
-          </div>
+      } else {
 
-          <div class="status-details">
-            ${status.vehicle_count} vehicles ·
-            Data timestamp ${formatLocalTime(status.generated_at)}
-          </div>
-        `;
+        marker.setLatLng(position);
 
-      } catch (error) {
-        console.error(error);
+        marker.setIcon(
+          createBusIcon(vehicle)
+        );
 
-        element.className = "status stale";
+        marker.setPopupContent(
+          createPopup(vehicle)
+        );
 
-        element.innerHTML = `
-          <div class="status-title">
-            🔴 Data unavailable
-          </div>
-
-          <div>
-            Unable to retrieve the bus data status.
-          </div>
-        `;
       }
+
     }
 
-    loadStatus();
-    setInterval(loadStatus, 10000);
-  </script>
+    // Remove buses which have disappeared from the feed.
+    for (const [vehicleId, marker] of markers) {
+
+      if (!activeVehicleIds.has(vehicleId)) {
+
+        map.removeLayer(marker);
+
+        markers.delete(vehicleId);
+
+      }
+
+    }
+
+  }
+
+  function addLegend(vehicles) {
+
+    const routes = [
+      ...new Set(
+        vehicles.map(vehicle => vehicle.route)
+      )
+    ].sort();
+
+    const legend = L.control({
+      position: "bottomright"
+    });
+
+    legend.onAdd = function () {
+
+      const div = L.DomUtil.create(
+        "div",
+        "legend"
+      );
+
+      div.innerHTML =
+        `<div class="legend-title">Routes</div>`;
+
+      for (const route of routes) {
+
+        const colour =
+          route === "21"
+            ? "#e53935"
+            : route === "22"
+              ? "#8e24aa"
+              : route === "28"
+                ? "#00897b"
+                : "#555";
+
+        div.innerHTML += `
+          <div class="legend-item">
+            <span
+              class="legend-colour"
+              style="background:${colour}"
+            ></span>
+
+            Route ${route}
+          </div>
+        `;
+
+      }
+
+      return div;
+
+    };
+
+    legend.addTo(map);
+
+  }
+
+  let firstLoad = true;
+
+  async function loadBusData() {
+
+    try {
+
+      const cacheBust = Date.now();
+
+      const [
+        busResponse,
+        statusResponse
+      ] = await Promise.all([
+
+        fetch(
+          `buses.json?cacheBust=${cacheBust}`,
+          { cache: "no-store" }
+        ),
+
+        fetch(
+          `status.json?cacheBust=${cacheBust}`,
+          { cache: "no-store" }
+        )
+
+      ]);
+
+      if (!busResponse.ok) {
+        throw new Error(
+          `Bus data HTTP ${busResponse.status}`
+        );
+      }
+
+      if (!statusResponse.ok) {
+        throw new Error(
+          `Status HTTP ${statusResponse.status}`
+        );
+      }
+
+      const data = await busResponse.json();
+      const status = await statusResponse.json();
+
+      updateBusMarkers(data.vehicles);
+
+      const generatedTime =
+        new Date(status.generated_at);
+
+      const ageSeconds = Math.max(
+        0,
+        Math.floor(
+          (Date.now() - generatedTime.getTime()) / 1000
+        )
+      );
+
+      const statusElement =
+        document.getElementById("status");
+
+      statusElement.className =
+        `status ${status.status}`;
+
+      statusElement.innerHTML = `
+        <div class="status-title">
+          ${getStatusTitle(status.status)}
+        </div>
+
+        <div>
+          ${formatAge(ageSeconds)}
+        </div>
+
+        <div class="status-details">
+          ${data.vehicle_count} vehicles ·
+          Data timestamp ${formatTime(status.generated_at)}
+        </div>
+      `;
+
+      // On first load, automatically frame all buses.
+      if (firstLoad && data.vehicles.length > 0) {
+
+        const bounds = L.latLngBounds(
+          data.vehicles.map(vehicle => [
+            vehicle.latitude,
+            vehicle.longitude
+          ])
+        );
+
+        map.fitBounds(
+          bounds.pad(0.15)
+        );
+
+        firstLoad = false;
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      const statusElement =
+        document.getElementById("status");
+
+      statusElement.className =
+        "status stale";
+
+      statusElement.innerHTML = `
+        <div class="status-title">
+          🔴 Data unavailable
+        </div>
+
+        <div>
+          Unable to retrieve live bus data.
+        </div>
+      `;
+
+    }
+
+  }
+
+  loadBusData();
+
+  // Refresh the bus data every 10 seconds.
+  setInterval(
+    loadBusData,
+    10000
+  );
+
+</script>
 
 </body>
 </html>

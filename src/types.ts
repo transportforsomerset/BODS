@@ -1,3 +1,7 @@
+export type DataSource = "live" | "github" | "pi" | "sample";
+
+export type DataStatus = "live" | "backup" | "stale" | "sample";
+
 export interface Vehicle {
   vehicle_id: string;
   operator: string;
@@ -18,9 +22,20 @@ export interface Vehicle {
 export interface BusData {
   schema_version: 1;
   generated_at: string;
-  source: "live" | "github" | "pi" | "sample";
-  status: "live" | "backup" | "stale" | "sample";
+  source: DataSource;
+  status: DataStatus;
   data_age_seconds: number;
   vehicle_count: number;
   vehicles: Vehicle[];
+}
+
+export interface StatusData {
+  schema_version: 1;
+  status: DataStatus;
+  source: DataSource;
+  generated_at: string;
+  checked_at: string;
+  data_age_seconds: number;
+  vehicle_count: number;
+  message: string;
 }

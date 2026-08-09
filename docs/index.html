@@ -3,19 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transport for Somerset – Data Test</title>
+  <title>Transport for Somerset – Open Bus Data</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+
+    .status {
+      padding: 15px;
+      border-radius: 8px;
+      background: #eee;
+      margin: 20px 0;
+    }
+
+    a {
+      color: #0057b8;
+    }
+  </style>
 </head>
+
 <body>
   <h1>Transport for Somerset</h1>
 
-  <p>GitHub backup data endpoint</p>
-
   <p>
-    <a href="buses.json">View bus data</a>
+    Open bus data development endpoint.
   </p>
 
-  <p>
-    <a href="status.json">View data status</a>
-  </p>
+  <div class="status" id="status">
+    Loading data status...
+  </div>
+
+  <h2>Data</h2>
+
+  <ul>
+    <li><a href="buses.json">buses.json</a></li>
+    <li><a href="status.json">status.json</a></li>
+  </ul>
+
+  <script>
+    fetch("status.json")
+      .then(response => response.json())
+      .then(status => {
+        document.getElementById("status").innerHTML = `
+          <strong>Status:</strong> ${status.status}<br>
+          <strong>Source:</strong> ${status.source}<br>
+          <strong>Vehicles:</strong> ${status.vehicle_count}<br>
+          <strong>Generated:</strong> ${status.generated_at}<br>
+          <strong>Age:</strong> ${status.data_age_seconds} seconds
+        `;
+      })
+      .catch(() => {
+        document.getElementById("status").textContent =
+          "Unable to retrieve bus data status.";
+      });
+  </script>
 </body>
 </html>

@@ -1,13 +1,15 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import type { BusData } from "./types";
 import { validateBusData } from "./validate";
+import { createStatusData } from "./status";
 
-const file = "data/buses.json";
+const busDataFile = "data/buses.json";
+const statusFile = "data/status.json";
 
 console.log("Transport for Somerset bus-data collector");
-console.log(`Reading ${file}...`);
+console.log(`Reading ${busDataFile}...`);
 
-const contents = await readFile(file, "utf8");
+const contents = await readFile(busDataFile, "utf8");
 
 let data: unknown;
 
@@ -27,9 +29,26 @@ const busData = data as BusData;
 
 console.log("Data validation successful.");
 console.log(`Source: ${busData.source}`);
-console.log(`Status: ${busData.status}`);
-console.log(`Vehicles: ${busData.vehicle_count}`);
+console.log(`Vehicles: ${busData.vehicles.length}`);
 console.log(`Generated: ${busData.generated_at}`);
+
+const statusData = createStatusData(busData);
+
+await writeFile(
+  statusFile,
+  `${JSON.stringify(statusData, null, 2)}\n`,
+  "utf8"
+);
+
+console.log("");
+console.log("Status:");
+console.log(`  Status: ${statusData.status}`);
+console.log(`  Age: ${statusData.data_age_seconds} seconds`);
+console.log(`  Vehicles: ${statusData.vehicle_count}`);
+console.log(`  Message: ${statusData.message}`);
+
+console.log("");
+console.log("Routes:");
 
 for (const vehicle of busData.vehicles) {
   console.log(
@@ -37,4 +56,6 @@ for (const vehicle of busData.vehicles) {
   );
 }
 
+console.log("");
+console.log(`Wrote ${statusFile}`);
 console.log("Finished successfully.");

@@ -1,15 +1,7 @@
+typescript
 const BODS_API_URL =
-  "https://data.bus-data.dft.gov.uk/api/v1/datafeed/";
+  "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
 
-/*
- * Services we're currently interested in testing.
- *
- * 21 / 21A - local services
- * 22 / 22A - local services
- * 28       - local service
- * PR       - Taunton Park & Ride
- * SF1      - Berry's coach service to London
- */
 const TEST_SERVICES = new Set([
   "21",
   "21A",
@@ -43,50 +35,72 @@ function getTagValue(xml: string, tag: string): string | null {
 }
 
 async function main() {
-  const accessCode = process.env.BODS_API_KEY;
+  const apiKey = process.env.BODS_API_KEY;
 
-  if (!accessCode) {
-    throw new Error("BODS_ACCESS_CODE secret is not set.");
+  if (!apiKey) {
+    throw new Error("BODS_API_KEY secret is not set.");
   }
 
-  console.log("Requesting BODS live vehicle data...");
+  // Small test area around Taunton.
+  // Format:
+  // minLongitude,minLatitude,maxLongitude,maxLatitude
+  const boundingBox = "-3.15,50.98,-3.05,51.05";
 
   const url = new URL(BODS_API_URL);
 
-  url.searchParams.set("api", accessCode);
+  // These are the same parameters used by our
+  // known-working test-bods.ts script.
+  url.searchParams.set("boundingBox", boundingBox);
+  url.searchParams.set("api_key", apiKey);
 
-  // Current test area around Taunton.
-  url.searchParams.set(
-    "boundingBox",
-    "-3.15,50.98,-3.05,51.05"
-  );
+  console.log("Requesting BODS live vehicle data...");
+  console.log(`Bounding box: ${boundingBox}`);
 
   const response = await fetch(url);
 
-  console.log(`HTTP status: ${response.status} ${response.statusText}`);
+  console.log(
+    `HTTP status: ${response.status} ${response.statusText}`
+  );
 
-  if (!response.ok) {
-    throw new Error(
-      `BODS request failed: HTTP ${response.status}: ${response.statusText}`
-    );
-  }
+  console.log(
+    `Content-Type: ${
+      response.headers.get("content-type") ?? "unknown"
+    }`
+  );
 
   const xml = await response.text();
 
   console.log(`Response size: ${xml.length} characters`);
 
+  if (!response.ok) {
+    console.error("BODS request failed.");
+    console.error(`HTTP ${response.status}: ${response.statusText}`);
+    console.error(xml.slice(0, 500));
+    process.exit(1);
+  }
+
+  if (!xml.trim()) {
+    console.error("BODS returned an empty response.");
+    process.exit(1);
+  }
+
+  console.log("BODS request succeeded.");
+
   /*
-   * We deliberately don't parse the XML with regular expressions.
+   * Temporarily identify VehicleActivity records.
    *
-   * This first version simply proves that the live request and
-   * service filtering are working. We'll replace this section with
-   * a proper XML parser next.
+   * We will replace the XML extraction below with a proper
+   * XML parser once we've confirmed the live data is being
+   * retrieved successfully.
    */
-
   const vehicleActivities =
-    xml.match(/<VehicleActivity>[\s\S]*?<\/VehicleActivity>/g) ?? [];
+    xml.match(
+      /<VehicleActivity>[\s\S]*?<\/VehicleActivity>/g
+    ) ?? [];
 
-  console.log(`VehicleActivity records found: ${vehicleActivities.length}`);
+  console.log(
+    `VehicleActivity records found: ${vehicleActivities.length}`
+  );
 
   const vehicles: BusVehicle[] = [];
 
@@ -116,7 +130,10 @@ async function main() {
     const longitude = Number(locationMatch[1]);
     const latitude = Number(locationMatch[2]);
 
-    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
       continue;
     }
 
@@ -129,7 +146,9 @@ async function main() {
       destination: getTagValue(activity, "DestinationName") ?? "",
       latitude,
       longitude,
-      bearing: Number(getTagValue(activity, "Bearing") ?? 0),
+      bearing: Number(
+        getTagValue(activity, "Bearing") ?? 0
+      ),
       recorded_at:
         getTagValue(activity, "RecordedAtTime") ??
         new Date().toISOString(),
@@ -142,7 +161,8 @@ async function main() {
 
   for (const vehicle of vehicles) {
     console.log(
-      `${vehicle.route}: ${vehicle.vehicle_id} → ${vehicle.destination} ` +
+      `${vehicle.route}: ${vehicle.vehicle_id} → ` +
+      `${vehicle.destination} ` +
       `(${vehicle.latitude}, ${vehicle.longitude})`
     );
   }

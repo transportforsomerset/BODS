@@ -1,4 +1,4 @@
-import type { BusData, BusVehicle } from "./types";
+import type { BusData, Vehicle } from "./types";
 
 const BODS_API_URL =
   "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
@@ -64,6 +64,7 @@ export async function fetchBodsData(): Promise<BusData> {
 
   if (!response.ok) {
     console.error(xml.slice(0, 500));
+
     throw new Error(
       `BODS request failed: HTTP ${response.status}: ${response.statusText}`
     );
@@ -84,7 +85,7 @@ export async function fetchBodsData(): Promise<BusData> {
     `VehicleActivity records found: ${vehicleActivities.length}`
   );
 
-  const vehicles: BusVehicle[] = [];
+  const vehicles: Vehicle[] = [];
 
   for (const activity of vehicleActivities) {
     const line =
@@ -119,15 +120,19 @@ export async function fetchBodsData(): Promise<BusData> {
       continue;
     }
 
-    const vehicle: BusVehicle = {
+    const operatorCode =
+      getTagValue(activity, "OperatorRef") ?? "";
+
+    const journeyId =
+      getTagValue(activity, "DatedVehicleJourneyRef") ?? "";
+
+    const vehicle: Vehicle = {
       vehicle_id: vehicleId,
+      operator: operatorCode,
+      operator_code: operatorCode,
       route: line,
-      operator: cleanText(
-        getTagValue(activity, "OperatorRef") ?? ""
-      ),
-      direction: cleanText(
-        getTagValue(activity, "DirectionRef") ?? ""
-      ),
+      direction:
+        getTagValue(activity, "DirectionRef") ?? "",
       origin: cleanText(
         getTagValue(activity, "OriginName") ?? ""
       ),
@@ -139,9 +144,12 @@ export async function fetchBodsData(): Promise<BusData> {
       bearing: Number(
         getTagValue(activity, "Bearing") ?? 0
       ),
+      speed_mps: 0,
+      occupancy: "",
       recorded_at:
         getTagValue(activity, "RecordedAtTime") ??
         new Date().toISOString(),
+      journey_id: journeyId,
     };
 
     vehicles.push(vehicle);
@@ -150,8 +158,10 @@ export async function fetchBodsData(): Promise<BusData> {
   console.log(`Matching vehicles: ${vehicles.length}`);
 
   return {
+    schema_version: 1,
     generated_at: new Date().toISOString(),
-    source: "BODS",
+    source: "live",
+    status: "live",
     data_age_seconds: 0,
     vehicle_count: vehicles.length,
     vehicles,

@@ -1,5 +1,9 @@
+import { writeFile } from "node:fs/promises";
+
 const BODS_API_URL =
   "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
+
+const OUTPUT_FILE = "data/buses.json";
 
 const TEST_SERVICES = new Set([
   "21",
@@ -10,8 +14,6 @@ const TEST_SERVICES = new Set([
   "28",
   "PR",
   "SF1",
-  "SF2",
-  "SF3"
 ]);
 
 interface BusVehicle {
@@ -27,12 +29,26 @@ interface BusVehicle {
   recorded_at: string;
 }
 
+interface BusData {
+  generated_at: string;
+  source: string;
+  vehicle_count: number;
+  vehicles: BusVehicle[];
+}
+
 function getTagValue(xml: string, tag: string): string | null {
   const match = xml.match(
     new RegExp(`<${tag}>([^<]*)</${tag}>`)
   );
 
   return match?.[1] ?? null;
+}
+
+function cleanText(value: string): string {
+  return value
+    .replace(/\\_/g, " ")
+    .replace(/_/g, " ")
+    .trim();
 }
 
 async function main() {
@@ -42,15 +58,10 @@ async function main() {
     throw new Error("BODS_API_KEY secret is not set.");
   }
 
-  // Small test area around Taunton.
-  // Format:
-  // minLongitude,minLatitude,maxLongitude,maxLatitude
   const boundingBox = "-3.15,50.98,-3.05,51.05";
 
   const url = new URL(BODS_API_URL);
 
-  // These are the same parameters used by our
-  // known-working test-bods.ts script.
   url.searchParams.set("boundingBox", boundingBox);
   url.searchParams.set("api_key", apiKey);
 
@@ -81,19 +92,11 @@ async function main() {
   }
 
   if (!xml.trim()) {
-    console.error("BODS returned an empty response.");
-    process.exit(1);
+    throw new Error("BODS returned an empty response.");
   }
 
   console.log("BODS request succeeded.");
 
-  /*
-   * Temporarily identify VehicleActivity records.
-   *
-   * We will replace the XML extraction below with a proper
-   * XML parser once we've confirmed the live data is being
-   * retrieved successfully.
-   */
   const vehicleActivities =
     xml.match(
       /<VehicleActivity>[\s\S]*?<\/VehicleActivity>/g
@@ -141,10 +144,18 @@ async function main() {
     const vehicle: BusVehicle = {
       vehicle_id: vehicleId,
       route: line,
-      operator: getTagValue(activity, "OperatorRef") ?? "",
-      direction: getTagValue(activity, "DirectionRef") ?? "",
-      origin: getTagValue(activity, "OriginName") ?? "",
-      destination: getTagValue(activity, "DestinationName") ?? "",
+      operator: cleanText(
+        getTagValue(activity, "OperatorRef") ?? ""
+      ),
+      direction: cleanText(
+        getTagValue(activity, "DirectionRef") ?? ""
+      ),
+      origin: cleanText(
+        getTagValue(activity, "OriginName") ?? ""
+      ),
+      destination: cleanText(
+        getTagValue(activity, "DestinationName") ?? ""
+      ),
       latitude,
       longitude,
       bearing: Number(
@@ -158,7 +169,21 @@ async function main() {
     vehicles.push(vehicle);
   }
 
+  const data: BusData = {
+    generated_at: new Date().toISOString(),
+    source: "BODS",
+    vehicle_count: vehicles.length,
+    vehicles,
+  };
+
+  await writeFile(
+    OUTPUT_FILE,
+    `${JSON.stringify(data, null, 2)}\n`,
+    "utf8"
+  );
+
   console.log(`Matching vehicles: ${vehicles.length}`);
+  console.log(`Wrote ${OUTPUT_FILE}`);
 
   for (const vehicle of vehicles) {
     console.log(

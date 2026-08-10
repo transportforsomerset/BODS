@@ -19,6 +19,13 @@ export interface Vehicle {
   journey_id: string;
 }
 
+export interface VehicleHistory {
+  vehicle_id: string;
+  latitude: number;
+  longitude: number;
+  recorded_at: string;
+}
+
 export interface BusData {
   schema_version: 1;
   generated_at: string;

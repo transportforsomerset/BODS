@@ -18,6 +18,7 @@
     return button;
   };
   fullscreenControl.addTo(map);
+  document.addEventListener("fullscreenchange", () => {map.invalidateSize();});
 
 L.tileLayer(
       "https://tile.openstreetmap.org/{z}/{x}/{y}.png",

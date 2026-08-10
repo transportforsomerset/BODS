@@ -2,8 +2,8 @@
   "schema_version": 1,
   "status": "stale",
   "source": "live",
-  "generated_at": "2026-08-10T13:14:23.771Z",
-  "checked_at": "2026-08-10T13:14:23.772Z",
+  "generated_at": "2026-08-10T13:20:06.844Z",
+  "checked_at": "2026-08-10T13:20:06.845Z",
   "data_age_seconds": 0,
   "vehicle_count": 11,
   "message": "Bus data is older than expected."

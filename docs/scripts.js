@@ -280,29 +280,6 @@ function buildRouteButtons() {
   );
 }
 
-function updateRouteButtonCounts() {
-  for (const group of serviceGroups) {
-    const button = document.querySelector(
-      `[data-route="${group.ref}"]`
-    );
-
-    if (!button) {
-      continue;
-    }
-
-const count = getServiceGroupVehicleCount(group);
-
-if (count === 0) {
-  continue;
-}
-
-const label = group.name ?? group.ref;
-const busLabel = count === 1 ? "bus" : "buses";
-
-button.textContent = `${label} · ${count} ${busLabel}`;
-  }
-}
-
   let firstLoad = true;
 
   async function loadData() {
@@ -360,7 +337,6 @@ button.textContent = `${label} · ${count} ${busLabel}`;
 
       allVehicles = data.vehicles;
 
-      updateRouteButtonCounts();
       updateMarkers();
 
       const generated =

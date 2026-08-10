@@ -15,6 +15,7 @@ const TEST_SERVICES = new Set([
   "21A",
   "22",
   "22A",
+  "X22",
   "28",
   "PR",
   "SF1",
@@ -42,7 +43,7 @@ function getTagValue(xml: string, tag: string): string | null {
 }
 
 async function main() {
-  const accessCode = process.env.BODS_ACCESS_CODE;
+  const accessCode = process.env.BODS_API_KEY;
 
   if (!accessCode) {
     throw new Error("BODS_ACCESS_CODE secret is not set.");

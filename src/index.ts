@@ -68,7 +68,7 @@ try {
 let busData;
 
 try {
-  busData = await fetchBodsData();
+  busData = await fetchBodsData(TRACKED_SERVICES);
 } catch (error) {
   console.error("ERROR: Unable to retrieve BODS data.");
 

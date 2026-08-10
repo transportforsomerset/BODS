@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T14:18:47.302Z",
+  "generated_at": "2026-08-10T14:20:45.205Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 801,
+  "data_age_seconds": 919,
   "vehicle_count": 10,
   "vehicles": [
     {
@@ -14,12 +14,12 @@
       "direction": "inbound",
       "origin": "Wellington Tile Centre",
       "destination": "Castle Way",
-      "latitude": 51.014574,
-      "longitude": -3.113925,
-      "bearing": 104,
+      "latitude": 51.013747,
+      "longitude": -3.107257,
+      "bearing": 59,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:24+00:00",
+      "recorded_at": "2026-08-10T14:20:42+00:00",
       "journey_id": "166"
     },
     {
@@ -30,12 +30,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Sea View Road",
-      "latitude": 51.03597,
-      "longitude": -3.065635,
-      "bearing": 48,
+      "latitude": 51.036849,
+      "longitude": -3.063831,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:35+00:00",
+      "recorded_at": "2026-08-10T14:20:17+00:00",
       "journey_id": "115"
     },
     {
@@ -78,12 +78,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Dobree Park",
-      "latitude": 51.005937,
-      "longitude": -3.144651,
-      "bearing": 258,
+      "latitude": 51.004455,
+      "longitude": -3.146918,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:40+00:00",
+      "recorded_at": "2026-08-10T14:20:19+00:00",
       "journey_id": "167"
     },
     {
@@ -99,7 +99,7 @@
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:29+00:00",
+      "recorded_at": "2026-08-10T14:20:37+00:00",
       "journey_id": "125"
     },
     {
@@ -107,16 +107,16 @@
       "operator": "FBOS",
       "operator_code": "FBOS",
       "route": "28",
-      "direction": "inbound",
-      "origin": "Butlins",
-      "destination": "Castle Way",
-      "latitude": 51.014371,
-      "longitude": -3.105377,
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Butlins",
+      "latitude": 51.01442,
+      "longitude": -3.105424,
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:31+00:00",
-      "journey_id": "126"
+      "recorded_at": "2026-08-10T14:20:20+00:00",
+      "journey_id": "127"
     },
     {
       "vehicle_id": "SDVN-15254",
@@ -126,12 +126,12 @@
       "direction": "outbound",
       "origin": "Silk Mills P&amp;R",
       "destination": "Gateway P&amp;R",
-      "latitude": 51.016281,
-      "longitude": -3.130621,
-      "bearing": 192,
+      "latitude": 51.014488,
+      "longitude": -3.12184,
+      "bearing": 108,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:26+00:00",
+      "recorded_at": "2026-08-10T14:20:27+00:00",
       "journey_id": "155"
     },
     {
@@ -142,12 +142,12 @@
       "direction": "inbound",
       "origin": "Gateway P&amp;R",
       "destination": "Silk Mills P&amp;R",
-      "latitude": 51.011608,
-      "longitude": -3.119247,
-      "bearing": 186,
+      "latitude": 51.013248,
+      "longitude": -3.120496,
+      "bearing": 294,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:32+00:00",
+      "recorded_at": "2026-08-10T14:20:33+00:00",
       "journey_id": "152"
     },
     {
@@ -155,16 +155,16 @@
       "operator": "SDVN",
       "operator_code": "SDVN",
       "route": "PR",
-      "direction": "outbound",
-      "origin": "Silk Mills P&amp;R",
-      "destination": "Gateway P&amp;R",
-      "latitude": 51.016594,
-      "longitude": -3.05735,
-      "bearing": 120,
+      "direction": "inbound",
+      "origin": "Gateway P&amp;R",
+      "destination": "Silk Mills P&amp;R",
+      "latitude": 51.016651,
+      "longitude": -3.058332,
+      "bearing": 330,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T14:18:13+00:00",
-      "journey_id": "153"
+      "recorded_at": "2026-08-10T14:20:34+00:00",
+      "journey_id": "154"
     }
   ]
 }

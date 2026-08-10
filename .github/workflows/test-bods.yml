@@ -25,6 +25,6 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Test BODS API
-        run: bun run src/fetch-bods.ts
+        run: bun run src/test-bods.ts
         env:
           BODS_API_KEY: ${{ secrets.BODS_API_KEY }}

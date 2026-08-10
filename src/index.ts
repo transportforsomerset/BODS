@@ -136,6 +136,14 @@ await writeFile(
 
 console.log(`Wrote ${busDataFile}`);
 
+await writeFile(
+  "docs/services.json",
+  `${JSON.stringify(serviceGroups, null, 2)}\n`,
+  "utf8"
+);
+
+console.log("Wrote docs/services.json");
+
 const statusData = createStatusData(busData);
 
 await writeFile(

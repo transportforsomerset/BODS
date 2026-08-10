@@ -1,21 +1,6 @@
 import type { BusData, Vehicle } from "./types";
 
-const BODS_API_URL =
-  "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
-
-const TEST_SERVICES = new Set([
-  "21",
-  "21A",
-  "22",
-  "22A",
-  "X22",
-  "24",
-  "28",
-  "28A",
-  "PR",
-  "SF1",
-  "SF2"
-]);
+const BODS_API_URL = "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
 
 function getTagValue(xml: string, tag: string): string | null {
   const match = xml.match(
@@ -32,7 +17,7 @@ function cleanText(value: string): string {
     .trim();
 }
 
-export async function fetchBodsData(): Promise<BusData> {
+export async function fetchBodsData(trackedServices: Set<string>): Promise<BusData> {
   const apiKey = process.env.BODS_API_KEY;
 
   if (!apiKey) {
@@ -95,7 +80,7 @@ export async function fetchBodsData(): Promise<BusData> {
       getTagValue(activity, "LineRef") ??
       getTagValue(activity, "PublishedLineName");
 
-    if (!line || !TEST_SERVICES.has(line)) {
+    if (!line || !trackedServices.has(line)) {
       continue;
     }
 

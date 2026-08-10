@@ -230,34 +230,29 @@ const visibleVehicles =
 
   }
 
+function getServiceGroupVehicleCount(group) {
+  return allVehicles.filter(vehicle => group.services.includes(vehicle.route)).length;
+}
+
 function buildRouteButtons() {
-  const routeBar =
-    document.querySelector(".route-bar");
+  const routeBar = document.querySelector(".route-bar");
 
   for (const group of serviceGroups) {
-    const button =
-      document.createElement("button");
+    const button = document.createElement("button");
 
     button.className = "route-button";
     button.dataset.route = group.ref;
-    button.textContent = group.name ?? group.ref;
+    const label = group.name ?? group.ref;
+    const count = getServiceGroupVehicleCount(group);
 
-    button.addEventListener(
-      "click",
-      () => {
-        selectedRoute = group.ref;
+    button.textContent = `${label} (${count})`;
 
-        document
-          .querySelectorAll(".route-button")
-          .forEach(
-            item =>
-              item.classList.remove("selected")
-          );
-
-        button.classList.add("selected");
-        updateMarkers();
-      }
-    );
+    button.addEventListener("click", () => {
+      selectedRoute = group.ref;
+      document.querySelectorAll(".route-button").forEach(item =>item.classList.remove("selected"));
+      button.classList.add("selected");
+      updateMarkers();
+    });
 
     routeBar.appendChild(button);
   }
@@ -283,6 +278,23 @@ function buildRouteButtons() {
       updateMarkers();
     }
   );
+}
+
+function updateRouteButtonCounts() {
+  for (const group of serviceGroups) {
+    const button = document.querySelector(
+      `[data-route="${group.ref}"]`
+    );
+
+    if (!button) {
+      continue;
+    }
+
+    const label = group.name ?? group.ref;
+    const count = getServiceGroupVehicleCount(group);
+
+    button.textContent = `${label} (${count})`;
+  }
 }
 
   let firstLoad = true;
@@ -340,9 +352,9 @@ function buildRouteButtons() {
       
       serviceGroups = await servicesResponse.json();
 
-      allVehicles =
-        data.vehicles;
+      allVehicles = data.vehicles;
 
+      updateRouteButtonCounts();
       updateMarkers();
 
       const generated =

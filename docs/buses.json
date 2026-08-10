@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T22:40:51.669Z",
+  "generated_at": "2026-08-10T22:51:42.462Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 26,
+  "data_age_seconds": 284,
   "vehicle_count": 4,
   "vehicles": [
     {
@@ -14,12 +14,12 @@
       "direction": "inbound",
       "origin": "Sea View Road",
       "destination": "Castle Way",
-      "latitude": 51.014476,
-      "longitude": -3.102161,
-      "bearing": 292,
+      "latitude": 51.017248,
+      "longitude": -3.085848,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:40:25+00:00",
+      "recorded_at": "2026-08-10T22:46:58+00:00",
       "journey_id": "134"
     },
     {
@@ -30,29 +30,29 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Old Works Road",
-      "latitude": 51.095777,
-      "longitude": -3.0064,
-      "bearing": 45,
+      "latitude": 51.13019,
+      "longitude": -3.004365,
+      "bearing": 60,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:40:31+00:00",
+      "recorded_at": "2026-08-10T22:51:38+00:00",
       "journey_id": "139"
     },
     {
       "vehicle_id": "FBOS-30008-YK25OHT",
       "operator": "FBOS",
       "operator_code": "FBOS",
-      "route": "22A",
-      "direction": "outbound",
-      "origin": "Castle Way",
-      "destination": "Dobree Park",
-      "latitude": 50.967459,
-      "longitude": -3.252686,
-      "bearing": 42,
+      "route": "22",
+      "direction": "inbound",
+      "origin": "Dobree Park",
+      "destination": "Castle Way",
+      "latitude": 50.984293,
+      "longitude": -3.197712,
+      "bearing": 59,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:40:25+00:00",
-      "journey_id": "199"
+      "recorded_at": "2026-08-10T22:51:36+00:00",
+      "journey_id": "202"
     },
     {
       "vehicle_id": "FBOS-48502-YK25OHY",
@@ -62,12 +62,12 @@
       "direction": "inbound",
       "origin": "Lethbridge Arms",
       "destination": "Castle Way",
-      "latitude": 51.026182,
-      "longitude": -3.159128,
-      "bearing": 79,
+      "latitude": 51.016819,
+      "longitude": -3.103447,
+      "bearing": 166,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:40:26+00:00",
+      "recorded_at": "2026-08-10T22:51:38+00:00",
       "journey_id": "150"
     }
   ]

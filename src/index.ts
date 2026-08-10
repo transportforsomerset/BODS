@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fetchBodsData } from "./fetch-bods";
 import { validateBusData } from "./validate";
 import { createStatusData } from "./status";

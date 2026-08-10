@@ -21,11 +21,17 @@ export function determineStatus(
     return "sample";
   }
 
-  // These thresholds are deliberately conservative for now.
+  // BODS live data is considered live for up to 10 minutes.
+  if (source === "live" && ageSeconds <= 600) {
+    return "live";
+  }
+
+  // Raspberry Pi live data will use the stricter threshold later.
   if (source === "pi" && ageSeconds <= 60) {
     return "live";
   }
 
+  // GitHub Actions backup data can be up to 10 minutes old.
   if (source === "github" && ageSeconds <= 600) {
     return "backup";
   }
@@ -68,6 +74,6 @@ export function createStatusData(
     checked_at: checkedAt,
     data_age_seconds: dataAgeSeconds,
     vehicle_count: busData.vehicles.length,
-    message
+    message,
   };
 }

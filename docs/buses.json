@@ -1,43 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T22:55:40.473Z",
+  "generated_at": "2026-08-10T23:12:41.777Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 522,
-  "vehicle_count": 4,
+  "data_age_seconds": 324,
+  "vehicle_count": 1,
   "vehicles": [
-    {
-      "vehicle_id": "FBOS-30005-YK25OHP",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "21",
-      "direction": "inbound",
-      "origin": "Sea View Road",
-      "destination": "Castle Way",
-      "latitude": 51.017248,
-      "longitude": -3.085848,
-      "bearing": 0,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-10T22:46:58+00:00",
-      "journey_id": "134"
-    },
-    {
-      "vehicle_id": "FBOS-30006-YK25OHR",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "21",
-      "direction": "outbound",
-      "origin": "Castle Way",
-      "destination": "Old Works Road",
-      "latitude": 51.129824,
-      "longitude": -2.998775,
-      "bearing": 0,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-10T22:55:11+00:00",
-      "journey_id": "139"
-    },
     {
       "vehicle_id": "FBOS-30008-YK25OHT",
       "operator": "FBOS",
@@ -46,29 +14,13 @@
       "direction": "inbound",
       "origin": "Dobree Park",
       "destination": "Castle Way",
-      "latitude": 51.003343,
-      "longitude": -3.150946,
-      "bearing": 57,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-10T22:55:28+00:00",
-      "journey_id": "202"
-    },
-    {
-      "vehicle_id": "FBOS-48502-YK25OHY",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "28A",
-      "direction": "inbound",
-      "origin": "Lethbridge Arms",
-      "destination": "Castle Way",
-      "latitude": 51.014644,
-      "longitude": -3.102598,
+      "latitude": 51.014841,
+      "longitude": -3.104979,
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:52:40+00:00",
-      "journey_id": "150"
+      "recorded_at": "2026-08-10T23:07:17+00:00",
+      "journey_id": "202"
     }
   ]
 }

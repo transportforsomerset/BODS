@@ -24,7 +24,7 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
     throw new Error("BODS_API_KEY secret is not set.");
   }
 
-  const boundingBox = "-3.15,50.98,-3.05,51.05";
+  const boundingBox = "-3.31,50.84,-2.93,51.14";
 
   const url = new URL(BODS_API_URL);
 

@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T23:12:41.777Z",
+  "generated_at": "2026-08-10T23:42:54.124Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 324,
+  "data_age_seconds": 532,
   "vehicle_count": 1,
   "vehicles": [
     {
-      "vehicle_id": "FBOS-30008-YK25OHT",
+      "vehicle_id": "FBOS-30006-YK25OHR",
       "operator": "FBOS",
       "operator_code": "FBOS",
-      "route": "22",
-      "direction": "inbound",
-      "origin": "Dobree Park",
-      "destination": "Castle Way",
-      "latitude": 51.014841,
-      "longitude": -3.104979,
+      "route": "21",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Old Works Road",
+      "latitude": 51.017343,
+      "longitude": -3.085895,
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T23:07:17+00:00",
-      "journey_id": "202"
+      "recorded_at": "2026-08-10T23:34:02+00:00",
+      "journey_id": "139"
     }
   ]
 }

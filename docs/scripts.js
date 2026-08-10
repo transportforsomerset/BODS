@@ -17,7 +17,7 @@
   const markers = new Map();
 
   let allVehicles = [];
-
+  let serviceGroups = [];
   let selectedRoute = "all";
 
   const routeColours = {
@@ -148,13 +148,18 @@ function createBusIcon(vehicle) {
 
   function updateMarkers() {
 
-    const visibleVehicles =
-      selectedRoute === "all"
-        ? allVehicles
-        : allVehicles.filter(
-            vehicle =>
-              vehicle.route === selectedRoute
-          );
+const selectedGroup =
+  serviceGroups.find(
+    group => group.ref === selectedRoute
+  );
+
+const visibleVehicles =
+  selectedRoute === "all"
+    ? allVehicles
+    : allVehicles.filter(
+        vehicle =>
+          selectedGroup?.services.includes(vehicle.route)
+      );
 
     const activeIds =
       new Set(
@@ -225,64 +230,22 @@ function createBusIcon(vehicle) {
 
   }
 
-  function buildRouteButtons() {
+function buildRouteButtons() {
+  const routeBar =
+    document.querySelector(".route-bar");
 
-    const routeBar =
-      document.querySelector(".route-bar");
+  for (const group of serviceGroups) {
+    const button =
+      document.createElement("button");
 
-    const routes =
-      [...new Set(
-        allVehicles.map(
-          vehicle => vehicle.route
-        )
-      )].sort();
+    button.className = "route-button";
+    button.dataset.route = group.ref;
+    button.textContent = group.name ?? group.ref;
 
-    for (const route of routes) {
-
-      const button =
-        document.createElement("button");
-
-      button.className = "route-button";
-
-      button.dataset.route = route;
-
-      button.textContent =
-        `Route ${route}`;
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          selectedRoute = route;
-
-          document
-            .querySelectorAll(".route-button")
-            .forEach(
-              item =>
-                item.classList.remove("selected")
-            );
-
-          button.classList.add("selected");
-
-          updateMarkers();
-
-        }
-      );
-
-      routeBar.appendChild(button);
-
-    }
-
-    const allButton =
-      document.querySelector(
-        '[data-route="all"]'
-      );
-
-    allButton.addEventListener(
+    button.addEventListener(
       "click",
       () => {
-
-        selectedRoute = "all";
+        selectedRoute = group.ref;
 
         document
           .querySelectorAll(".route-button")
@@ -291,14 +254,36 @@ function createBusIcon(vehicle) {
               item.classList.remove("selected")
           );
 
-        allButton.classList.add("selected");
-
+        button.classList.add("selected");
         updateMarkers();
-
       }
     );
 
+    routeBar.appendChild(button);
   }
+
+  const allButton =
+    document.querySelector(
+      '[data-route="all"]'
+    );
+
+  allButton.addEventListener(
+    "click",
+    () => {
+      selectedRoute = "all";
+
+      document
+        .querySelectorAll(".route-button")
+        .forEach(
+          item =>
+            item.classList.remove("selected")
+        );
+
+      allButton.classList.add("selected");
+      updateMarkers();
+    }
+  );
+}
 
   let firstLoad = true;
 
@@ -309,25 +294,29 @@ function createBusIcon(vehicle) {
       const cacheBust = Date.now();
 
       const [
-        busResponse,
-        statusResponse
-      ] = await Promise.all([
-
-        fetch(
-          `buses.json?${cacheBust}`,
-          {
-            cache: "no-store"
-          }
-        ),
-
-        fetch(
-          `status.json?${cacheBust}`,
-          {
-            cache: "no-store"
-          }
-        )
-
-      ]);
+  busResponse,
+  statusResponse,
+  servicesResponse
+] = await Promise.all([
+  fetch(
+    `buses.json?${cacheBust}`,
+    {
+      cache: "no-store"
+    }
+  ),
+  fetch(
+    `status.json?${cacheBust}`,
+    {
+      cache: "no-store"
+    }
+  ),
+  fetch(
+    `services.json?${cacheBust}`,
+    {
+      cache: "no-store"
+    }
+  )
+]);
 
       if (!busResponse.ok) {
         throw new Error(
@@ -340,12 +329,16 @@ function createBusIcon(vehicle) {
           `Status HTTP ${statusResponse.status}`
         );
       }
+      if (!servicesResponse.ok) {
+        throw new Error(
+          `Services HTTP ${servicesResponse.status}`
+        );
+      }
 
-      const data =
-        await busResponse.json();
-
-      const status =
-        await statusResponse.json();
+      const data    = await busResponse.json();
+      const status  = await statusResponse.json();
+      
+      serviceGroups = await servicesResponse.json();
 
       allVehicles =
         data.vehicles;

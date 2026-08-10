@@ -9,9 +9,12 @@ const TEST_SERVICES = new Set([
   "22",
   "22A",
   "X22",
+  "24",
   "28",
+  "28A",
   "PR",
   "SF1",
+  "SF2"
 ]);
 
 function getTagValue(xml: string, tag: string): string | null {
@@ -157,13 +160,34 @@ export async function fetchBodsData(): Promise<BusData> {
 
   console.log(`Matching vehicles: ${vehicles.length}`);
 
-  return {
-    schema_version: 1,
-    generated_at: new Date().toISOString(),
-    source: "live",
-    status: "live",
-    data_age_seconds: 0,
-    vehicle_count: vehicles.length,
-    vehicles,
-  };
+const generatedAt = new Date();
+
+let dataAgeSeconds = 0;
+
+if (vehicles.length > 0) {
+  const recordedTimes = vehicles
+    .map((vehicle) => Date.parse(vehicle.recorded_at))
+    .filter((time) => Number.isFinite(time));
+
+  if (recordedTimes.length > 0) {
+    const oldestRecordedTime = Math.min(...recordedTimes);
+
+    dataAgeSeconds = Math.max(
+      0,
+      Math.floor(
+        (generatedAt.getTime() - oldestRecordedTime) / 1000
+      )
+    );
+  }
+}
+
+return {
+  schema_version: 1,
+  generated_at: generatedAt.toISOString(),
+  source: "live",
+  status: "live",
+  data_age_seconds: dataAgeSeconds,
+  vehicle_count: vehicles.length,
+  vehicles,
+};
 }

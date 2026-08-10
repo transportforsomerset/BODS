@@ -44,5 +44,15 @@ if (!body.trim()) {
 }
 
 console.log("BODS request succeeded.");
-console.log("First part of response:");
-console.log(body.slice(0, 5000));
+console.log("Looking for Park & Ride services...");
+
+const matches = body.match(
+  /<(?:LineRef|PublishedLineName)>([^<]*(?:PR|Park|Ride)[^<]*)<\/(?:LineRef|PublishedLineName)>/gi
+);
+
+if (matches) {
+  console.log("Possible Park & Ride references:");
+  console.log(matches);
+} else {
+  console.log("No obvious Park & Ride references found.");
+}

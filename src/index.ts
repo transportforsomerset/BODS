@@ -5,6 +5,7 @@ import { createStatusData } from "./status";
 
 const busDataFile = "docs/buses.json";
 const statusFile = "docs/status.json";
+const servicesFile = "data/services.json";
 
 console.log("Transport for Somerset bus-data collector");
 

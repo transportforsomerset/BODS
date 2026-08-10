@@ -45,4 +45,4 @@ if (!body.trim()) {
 
 console.log("BODS request succeeded.");
 console.log("First part of response:");
-console.log(body.slice(0, 300));
+console.log(body.slice(0, 5000));

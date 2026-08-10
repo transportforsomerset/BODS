@@ -594,7 +594,7 @@ function createBusIcon(vehicle) {
         class="bus-marker ${colourClass}"
         style="position: relative;"
       >
-        🚌
+        ${vehicle.route}
 
         <div
           class="bus-direction"
@@ -611,7 +611,6 @@ function createBusIcon(vehicle) {
   });
 
 }
-
   function createPopup(vehicle) {
 
     const mph =

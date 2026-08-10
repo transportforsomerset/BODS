@@ -15,24 +15,51 @@ console.log(`Reading ${servicesFile}...`);
 
 const servicesContents = await readFile(servicesFile, "utf8");
 
-let services: string[];
+type ServiceGroup = {
+  ref: string;
+  name?: string;
+  services: string[];
+};
+
+let serviceGroups: ServiceGroup[];
 
 try {
   const parsedServices: unknown = JSON.parse(servicesContents);
 
-  if (
-    !Array.isArray(parsedServices) ||
-    !parsedServices.every((service) => typeof service === "string")
-  ) {
-    throw new Error("services.json must contain an array of strings.");
+  if (!Array.isArray(parsedServices)) {
+    throw new Error("services.json must contain an array of service groups.");
   }
 
-  services = parsedServices;
+  serviceGroups = parsedServices.map((group) => {
+    if (
+      typeof group !== "object" ||
+      group === null ||
+      typeof (group as ServiceGroup).ref !== "string" ||
+      !Array.isArray((group as ServiceGroup).services) ||
+      !(group as ServiceGroup).services.every(
+        (service) => typeof service === "string"
+      )
+    ) {
+      throw new Error(
+        "Each service group must contain a ref and an array of services."
+      );
+    }
+
+    return group as ServiceGroup;
+  });
 } catch (error) {
   console.error(`ERROR: Could not read ${servicesFile}.`);
   console.error(error);
   process.exit(1);
 }
+
+const trackedServices = new Set(
+  serviceGroups.flatMap((group) => group.services)
+);
+
+console.log(
+  `Tracking services: ${Array.from(trackedServices).join(", ")}`
+);
 
 const TRACKED_SERVICES = new Set(services);
 
@@ -68,7 +95,7 @@ try {
 let busData;
 
 try {
-  busData = await fetchBodsData(TRACKED_SERVICES);
+  busData = await fetchBodsData(trackedServices);
 } catch (error) {
   console.error("ERROR: Unable to retrieve BODS data.");
 

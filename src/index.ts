@@ -61,8 +61,6 @@ console.log(
   `Tracking services: ${Array.from(trackedServices).join(", ")}`
 );
 
-const TRACKED_SERVICES = new Set(services);
-
 console.log(`Tracking services: ${services.join(", ")}`);
 
 console.log("Transport for Somerset bus-data collector");

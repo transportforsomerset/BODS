@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T22:34:50.329Z",
+  "generated_at": "2026-08-10T22:40:51.669Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 33,
-  "vehicle_count": 5,
+  "data_age_seconds": 26,
+  "vehicle_count": 4,
   "vehicles": [
     {
       "vehicle_id": "FBOS-30005-YK25OHP",
@@ -14,12 +14,12 @@
       "direction": "inbound",
       "origin": "Sea View Road",
       "destination": "Castle Way",
-      "latitude": 51.025131,
-      "longitude": -3.07139,
-      "bearing": 195,
+      "latitude": 51.014476,
+      "longitude": -3.102161,
+      "bearing": 292,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:34:20+00:00",
+      "recorded_at": "2026-08-10T22:40:25+00:00",
       "journey_id": "134"
     },
     {
@@ -30,12 +30,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Old Works Road",
-      "latitude": 51.05953,
-      "longitude": -3.03439,
-      "bearing": 32,
+      "latitude": 51.095777,
+      "longitude": -3.0064,
+      "bearing": 45,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:34:37+00:00",
+      "recorded_at": "2026-08-10T22:40:31+00:00",
       "journey_id": "139"
     },
     {
@@ -46,12 +46,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Dobree Park",
-      "latitude": 50.975251,
-      "longitude": -3.23641,
-      "bearing": 264,
+      "latitude": 50.967459,
+      "longitude": -3.252686,
+      "bearing": 42,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:34:45+00:00",
+      "recorded_at": "2026-08-10T22:40:25+00:00",
       "journey_id": "199"
     },
     {
@@ -62,29 +62,13 @@
       "direction": "inbound",
       "origin": "Lethbridge Arms",
       "destination": "Castle Way",
-      "latitude": 51.041085,
-      "longitude": -3.184341,
-      "bearing": 233,
+      "latitude": 51.026182,
+      "longitude": -3.159128,
+      "bearing": 79,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T22:34:36+00:00",
+      "recorded_at": "2026-08-10T22:40:26+00:00",
       "journey_id": "150"
-    },
-    {
-      "vehicle_id": "FBOS-63705_-_BN75NWO",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "28A",
-      "direction": "outbound",
-      "origin": "Lethbridge Arms",
-      "destination": "Butlins",
-      "latitude": 51.109126,
-      "longitude": -3.226376,
-      "bearing": 327,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-10T22:34:17+00:00",
-      "journey_id": "149"
     }
   ]
 }

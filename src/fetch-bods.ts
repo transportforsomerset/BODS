@@ -1,4 +1,4 @@
-import type { BusData, Vehicle } from "./types";
+import type { BusData, Geofence, Vehicle } from "./types";
 
 const BODS_API_URL = "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
 const MAX_VEHICLE_AGE_SECONDS = 10 * 60;
@@ -15,7 +15,7 @@ function cleanText(value: string): string {
     .trim();
 }
 
-export async function fetchBodsData(trackedServices: Set<string>): Promise<BusData> {
+export async function fetchBodsData(trackedServices: Set<string>,geofences: Geofence[]): Promise<BusData> {
   const apiKey = process.env.BODS_API_KEY;
 
   if (!apiKey) {

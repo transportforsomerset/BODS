@@ -2,8 +2,8 @@
   "schema_version": 1,
   "status": "sample",
   "source": "sample",
-  "generated_at": "2026-08-10T01:23:43.107Z",
-  "checked_at": "2026-08-10T01:23:43.107Z",
+  "generated_at": "2026-08-10T03:27:42.320Z",
+  "checked_at": "2026-08-10T03:27:42.320Z",
   "data_age_seconds": 0,
   "vehicle_count": 6,
   "message": "Using sample development data."

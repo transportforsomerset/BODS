@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T01:23:43.107Z",
+  "generated_at": "2026-08-10T03:27:42.320Z",
   "source": "sample",
   "status": "sample",
   "data_age_seconds": 0,
@@ -19,7 +19,7 @@
       "bearing": 290,
       "speed_mps": 12.4,
       "occupancy": "standingAvailable",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-28-1600-A"
     },
     {
@@ -35,7 +35,7 @@
       "bearing": 112,
       "speed_mps": 10.8,
       "occupancy": "seatsAvailable",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-28-1545-B"
     },
     {
@@ -51,7 +51,7 @@
       "bearing": 85,
       "speed_mps": 8.7,
       "occupancy": "full",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-29-1600-A"
     },
     {
@@ -67,7 +67,7 @@
       "bearing": 265,
       "speed_mps": 9.3,
       "occupancy": "seatsAvailable",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-29-1540-B"
     },
     {
@@ -83,7 +83,7 @@
       "bearing": 35,
       "speed_mps": 13.1,
       "occupancy": "standingAvailable",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-30-1600-A"
     },
     {
@@ -99,7 +99,7 @@
       "bearing": 215,
       "speed_mps": 11.6,
       "occupancy": "seatsAvailable",
-      "recorded_at": "2026-08-10T01:23:43.107Z",
+      "recorded_at": "2026-08-10T03:27:42.320Z",
       "journey_id": "SAMPLE-30-1545-B"
     }
   ]

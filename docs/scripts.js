@@ -290,10 +290,16 @@ function updateRouteButtonCounts() {
       continue;
     }
 
-    const label = group.name ?? group.ref;
-    const count = getServiceGroupVehicleCount(group);
+const count = getServiceGroupVehicleCount(group);
 
-    button.textContent = `${label} (${count})`;
+if (count === 0) {
+  continue;
+}
+
+const label = group.name ?? group.ref;
+const busLabel = count === 1 ? "bus" : "buses";
+
+button.textContent = `${label} · ${count} ${busLabel}`;
   }
 }
 

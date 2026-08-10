@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T20:22:16.326Z",
+  "generated_at": "2026-08-10T20:25:12.519Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 78192,
+  "data_age_seconds": 78368,
   "vehicle_count": 25,
   "vehicles": [
     {
@@ -94,12 +94,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Dobree Park",
-      "latitude": 50.98332,
-      "longitude": -3.208435,
-      "bearing": 305,
+      "latitude": 50.980554,
+      "longitude": -3.224725,
+      "bearing": 213,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T20:21:48+00:00",
+      "recorded_at": "2026-08-10T20:24:49+00:00",
       "journey_id": "195"
     },
     {
@@ -110,12 +110,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Sea View Road",
-      "latitude": 51.017932,
-      "longitude": -3.075054,
-      "bearing": 97,
+      "latitude": 51.027577,
+      "longitude": -3.066838,
+      "bearing": 64,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T20:21:50+00:00",
+      "recorded_at": "2026-08-10T20:25:02+00:00",
       "journey_id": "135"
     },
     {
@@ -238,12 +238,12 @@
       "direction": "inbound",
       "origin": "Sea View Road",
       "destination": "Castle Way",
-      "latitude": 51.094316,
-      "longitude": -3.008999,
-      "bearing": 231,
+      "latitude": 51.088468,
+      "longitude": -3.017183,
+      "bearing": 199,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T20:22:03+00:00",
+      "recorded_at": "2026-08-10T20:25:02+00:00",
       "journey_id": "130"
     },
     {
@@ -254,12 +254,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Lethbridge Arms",
-      "latitude": 51.052335,
-      "longitude": -3.183843,
-      "bearing": 25,
+      "latitude": 51.057527,
+      "longitude": -3.187607,
+      "bearing": 195,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T20:22:03+00:00",
+      "recorded_at": "2026-08-10T20:24:34+00:00",
       "journey_id": "143"
     },
     {
@@ -270,12 +270,12 @@
       "direction": "outbound",
       "origin": "Silk Mills P R",
       "destination": "Silk Mills P R",
-      "latitude": 51.02025,
-      "longitude": -3.104932,
-      "bearing": 242,
+      "latitude": 51.014644,
+      "longitude": -3.103085,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T20:22:09+00:00",
+      "recorded_at": "2026-08-10T20:24:51+00:00",
       "journey_id": "153"
     },
     {

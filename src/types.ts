@@ -46,3 +46,11 @@ export interface StatusData {
   vehicle_count: number;
   message: string;
 }
+
+export type Geofence = {
+  name: string;
+  latitude: number;
+  longitude: number;
+  radius_metres: number;
+  services?: string[];
+};

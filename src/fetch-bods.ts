@@ -1,4 +1,3 @@
-typescript
 const BODS_API_URL =
   "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
 

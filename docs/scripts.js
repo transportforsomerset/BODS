@@ -1,10 +1,29 @@
   const map = L.map("map");
+  const fullscreenControl = L.control({ position: "topright" });
 
-  L.tileLayer(
-    "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      maxZoom: 19,
-      attribution:
+  fullscreenControl.onAdd = function () {
+    const button = L.DomUtil.create("button","leaflet-control-fullscreen");
+    button.type = "button";
+    button.title = "View map fullscreen";
+    button.textContent = "⛶";
+
+    L.DomEvent.disableClickPropagation(button);
+
+    button.addEventListener("click", () => {
+      const mapElement = document.getElementById("map");
+      if (!mapElement) {return;}
+      if (!document.fullscreenElement) {mapElement.requestFullscreen();} else {document.exitFullscreen();}
+    });
+
+    return button;
+  };
+  fullscreenControl.addTo(map);
+
+L.tileLayer(
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }
   ).addTo(map);

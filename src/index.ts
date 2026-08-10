@@ -112,7 +112,7 @@ try {
 let busData;
 
 try {
-  busData = await fetchBodsData(trackedServices);
+  busData = await fetchBodsData(trackedServices,geofences);
 } catch (error) {
   console.error("ERROR: Unable to retrieve BODS data.");
 

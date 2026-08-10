@@ -80,154 +80,63 @@
 
   }
 
-function createBusIcon(vehicle) {
+  function createBusIcon(vehicle) {
+    const colourClass =  routeColours[vehicle.route] ?? "route-neutral";
+    const bearing = Number(vehicle.bearing ?? 0);
+    return L.divIcon({
+      className: "",
+      html: `<div class="bus-marker ${colourClass}" style="position: relative;">${vehicle.route}
+             <div class="bus-direction" style="transform: rotate(${bearing}deg)"></div>
+             </div>`,
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+      popupAnchor: [0, -18]
+    });
+  }
 
-  const colourClass =  routeColours[vehicle.route] ?? "route-neutral";
-  const bearing = Number(vehicle.bearing ?? 0);
-
-  return L.divIcon({
-
-    className: "",
-
-    html: `
-      <div
-        class="bus-marker ${colourClass}"
-        style="position: relative;"
-      >
-        ${vehicle.route}
-
-        <div
-          class="bus-direction"
-          style="transform: rotate(${bearing}deg)"
-        ></div>
-
-      </div>
-    `,
-
-    iconSize: [36, 36],
-    iconAnchor: [18, 18],
-    popupAnchor: [0, -18]
-
-  });
-
-}
   function createPopup(vehicle) {
-
-    const mph =
-      vehicle.speed_mps * 2.23694;
-
+    const mph = vehicle.speed_mps * 2.23694;
     return `
-
-      <div class="popup-route">
-        Route ${vehicle.route}
-      </div>
-
-      <div class="popup-destination">
-        ${vehicle.origin} → ${vehicle.destination}
-      </div>
-
+      <div class="popup-route">Route ${vehicle.route}</div>
+      <div class="popup-destination">${vehicle.origin} → ${vehicle.destination}</div>
       <div class="popup-details">
-
-        <strong>Operator:</strong>
-        ${vehicle.operator}<br>
-
-        <strong>Vehicle:</strong>
-        ${vehicle.vehicle_id}<br>
-
-        <strong>Speed:</strong>
-        ${mph.toFixed(1)} mph<br>
-
-        <strong>Recorded:</strong>
-        ${formatTime(vehicle.recorded_at)}
-
-      </div>
-
-    `;
-
+        <strong>Operator: </strong>${vehicle.operator}<br>
+        <strong>Vehicle: </strong>${vehicle.vehicle_id}<br>
+        <strong>Speed: </strong>${mph.toFixed(1)} mph<br>
+        <strong>Recorded: </strong>${formatTime(vehicle.recorded_at)}
+      </div>`;
   }
 
   function updateMarkers() {
-
-const selectedGroup =
-  serviceGroups.find(
-    group => group.ref === selectedRoute
-  );
-
-const visibleVehicles =
-  selectedRoute === "all"
-    ? allVehicles
-    : allVehicles.filter(
-        vehicle =>
-          selectedGroup?.services.includes(vehicle.route)
-      );
-
-    const activeIds =
-      new Set(
-        visibleVehicles.map(
-          vehicle => vehicle.vehicle_id
-        )
-      );
+    const selectedGroup = serviceGroups.find(group => group.ref === selectedRoute);
+    const visibleVehicles = selectedRoute === "all" ? allVehicles : allVehicles.filter(vehicle =>selectedGroup?.services.includes(vehicle.route));
+    const activeIds = new Set(visibleVehicles.map(vehicle => vehicle.vehicle_id));
 
     for (const vehicle of visibleVehicles) {
-
-      const position = [
-        vehicle.latitude,
-        vehicle.longitude
-      ];
-
-      let marker =
-        markers.get(vehicle.vehicle_id);
+      const position = [vehicle.latitude,vehicle.longitude];
+      let marker = markers.get(vehicle.vehicle_id);
 
       if (!marker) {
-
-        marker = L.marker(
-          position,
-          {
-            icon: createBusIcon(vehicle)
-          }
-        );
-
-        marker.bindPopup(
-          createPopup(vehicle)
-        );
-
+        marker = L.marker(position,{icon: createBusIcon(vehicle)});
+        marker.bindPopup(createPopup(vehicle));
         marker.addTo(map);
-
-        markers.set(
-          vehicle.vehicle_id,
-          marker
-        );
-
+        markers.set(vehicle.vehicle_id,marker);
       } else {
-
         marker.setLatLng(position);
-
-        marker.setIcon(
-          createBusIcon(vehicle)
-        );
-
-        marker.setPopupContent(
-          createPopup(vehicle)
-        );
+        marker.setIcon(createBusIcon(vehicle));
+        marker.setPopupContent(createPopup(vehicle));
 
         if (!map.hasLayer(marker)) {
           marker.addTo(map);
         }
-
       }
-
     }
 
     for (const [id, marker] of markers) {
-
       if (!activeIds.has(id)) {
-
         map.removeLayer(marker);
-
       }
-
     }
-
   }
 
 function getServiceGroupVehicleCount(group) {
@@ -245,7 +154,12 @@ function buildRouteButtons() {
     const label = group.name ?? group.ref;
     const count = getServiceGroupVehicleCount(group);
 
-    button.textContent = `${label} (${count})`;
+    if (count === 0) {
+      continue;
+    }
+
+    const busLabel = count === 1 ? "bus" : "buses";
+    button.textContent = `${label} · ${count} ${busLabel}`;
 
     button.addEventListener("click", () => {
       selectedRoute = group.ref;

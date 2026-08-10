@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "status": "sample",
-  "source": "sample",
-  "generated_at": "2026-08-10T12:02:12.589Z",
-  "checked_at": "2026-08-10T12:02:12.590Z",
+  "status": "stale",
+  "source": "live",
+  "generated_at": "2026-08-10T12:56:12.044Z",
+  "checked_at": "2026-08-10T12:56:12.045Z",
   "data_age_seconds": 0,
-  "vehicle_count": 6,
-  "message": "Using sample development data."
+  "vehicle_count": 11,
+  "message": "Bus data is older than expected."
 }

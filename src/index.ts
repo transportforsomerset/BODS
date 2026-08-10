@@ -1,46 +1,33 @@
-import { readFile, writeFile } from "node:fs/promises";
-import type { BusData } from "./types";
+import { writeFile } from "node:fs/promises";
+import { fetchBodsData } from "./fetch-bods";
 import { validateBusData } from "./validate";
 import { createStatusData } from "./status";
 
-const inputFile = "data/sample-buses.json";
 const busDataFile = "docs/buses.json";
 const statusFile = "docs/status.json";
 
 console.log("Transport for Somerset bus-data collector");
-console.log(`Reading ${inputFile}...`);
 
-const contents = await readFile(inputFile, "utf8");
-
-let data: unknown;
+let busData;
 
 try {
-  data = JSON.parse(contents);
-} catch {
-  console.error("ERROR: sample-buses.json is not valid JSON.");
-  process.exit(1);
-}
+  busData = await fetchBodsData();
+} catch (error) {
+  console.error("ERROR: Unable to retrieve BODS data.");
 
-if (!validateBusData(data)) {
-  console.error("ERROR: sample bus data failed validation.");
-  process.exit(1);
-}
-
-const busData = data as BusData;
-
-// Sample mode simulates a freshly received feed.
-if (busData.source === "sample") {
-  const now = new Date().toISOString();
-
-  busData.generated_at = now;
-
-  for (const vehicle of busData.vehicles) {
-    vehicle.recorded_at = now;
+  if (error instanceof Error) {
+    console.error(error.message);
+  } else {
+    console.error(error);
   }
+
+  process.exit(1);
 }
 
-busData.data_age_seconds = 0;
-busData.vehicle_count = busData.vehicles.length;
+if (!validateBusData(busData)) {
+  console.error("ERROR: BODS data failed validation.");
+  process.exit(1);
+}
 
 console.log("Data validation successful.");
 console.log(`Source: ${busData.source}`);

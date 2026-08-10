@@ -4,11 +4,12 @@ import { validateBusData } from "./validate";
 import { createStatusData } from "./status";
 import { calculateDistanceMetres } from "./movement";
 import { analyseMovement } from "./functions";
-import type { VehicleHistory } from "./types";
+import type { Geofence, VehicleHistory } from "./types";
 
 const busDataFile = "docs/buses.json";
 const statusFile = "docs/status.json";
 const servicesFile = "data/services.json";
+const geofencesFile = "data/geofences.json";
 const historyFile = "data/vehicle-history.json";
 
 console.log(`Reading ${servicesFile}...`);
@@ -63,6 +64,26 @@ console.log(
 
 console.log("Transport for Somerset bus-data collector");
 
+
+/*BEGIN: GeoFence depots */
+  console.log(`Reading ${geofencesFile}...`);
+  let geofences: Geofence[];
+
+  try {
+    const geofencesContents = await readFile(geofencesFile, "utf8");
+    const parsedGeofences: unknown = JSON.parse(geofencesContents);
+
+    if (!Array.isArray(parsedGeofences)) {
+      throw new Error("geofences.json must contain an array.");
+    }
+
+    geofences = parsedGeofences as Geofence[];
+  } catch (error) {
+    console.error(`ERROR: Could not read ${geofencesFile}.`);
+    console.error(error);
+    process.exit(1);
+  }
+/*END: GeoFence depots */
 
 console.log(`Reading ${historyFile}...`);
 

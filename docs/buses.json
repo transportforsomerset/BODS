@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T15:11:45.239Z",
+  "generated_at": "2026-08-10T15:15:55.283Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 3979,
+  "data_age_seconds": 4229,
   "vehicle_count": 11,
   "vehicles": [
     {
@@ -14,12 +14,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Sea View Road",
-      "latitude": 51.01468,
-      "longitude": -3.105012,
+      "latitude": 51.014812,
+      "longitude": -3.098761,
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:23+00:00",
+      "recorded_at": "2026-08-10T15:15:44+00:00",
       "journey_id": "117"
     },
     {
@@ -46,12 +46,12 @@
       "direction": "inbound",
       "origin": "Sea View Road",
       "destination": "Castle Way",
-      "latitude": 51.023212,
-      "longitude": -3.07174,
-      "bearing": 188,
+      "latitude": 51.016183,
+      "longitude": -3.089749,
+      "bearing": 254,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:38+00:00",
+      "recorded_at": "2026-08-10T15:15:42+00:00",
       "journey_id": "118"
     },
     {
@@ -94,12 +94,12 @@
       "direction": "inbound",
       "origin": "Dobree Park",
       "destination": "Castle Way",
-      "latitude": 51.010914,
-      "longitude": -3.134275,
-      "bearing": 65,
+      "latitude": 51.014945,
+      "longitude": -3.119699,
+      "bearing": 66,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:30+00:00",
+      "recorded_at": "2026-08-10T15:15:48+00:00",
       "journey_id": "174"
     },
     {
@@ -126,12 +126,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Butlins",
-      "latitude": 51.025547,
-      "longitude": -3.120981,
-      "bearing": 286,
+      "latitude": 51.026797,
+      "longitude": -3.130419,
+      "bearing": 298,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:40+00:00",
+      "recorded_at": "2026-08-10T15:15:40+00:00",
       "journey_id": "127"
     },
     {
@@ -142,12 +142,12 @@
       "direction": "inbound",
       "origin": "Gateway P&amp;R",
       "destination": "Silk Mills P&amp;R",
-      "latitude": 51.014812,
-      "longitude": -3.122681,
-      "bearing": 330,
+      "latitude": 51.015594,
+      "longitude": -3.130724,
+      "bearing": 312,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:29+00:00",
+      "recorded_at": "2026-08-10T15:15:30+00:00",
       "journey_id": "156"
     },
     {
@@ -158,12 +158,12 @@
       "direction": "inbound",
       "origin": "Gateway P&amp;R",
       "destination": "Silk Mills P&amp;R",
-      "latitude": 51.018089,
-      "longitude": -3.076567,
-      "bearing": 282,
+      "latitude": 51.014824,
+      "longitude": -3.098799,
+      "bearing": 234,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:32+00:00",
+      "recorded_at": "2026-08-10T15:15:34+00:00",
       "journey_id": "158"
     },
     {
@@ -174,12 +174,12 @@
       "direction": "outbound",
       "origin": "Silk Mills P&amp;R",
       "destination": "Gateway P&amp;R",
-      "latitude": 51.014198,
-      "longitude": -3.106407,
-      "bearing": 30,
+      "latitude": 51.01469,
+      "longitude": -3.099705,
+      "bearing": 66,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-10T15:11:31+00:00",
+      "recorded_at": "2026-08-10T15:15:33+00:00",
       "journey_id": "159"
     }
   ]

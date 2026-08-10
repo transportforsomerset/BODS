@@ -1,9 +1,7 @@
-import { writeFile } from "node:fs/promises";
+import type { BusData, BusVehicle } from "./types";
 
 const BODS_API_URL =
   "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
-
-const OUTPUT_FILE = "data/buses.json";
 
 const TEST_SERVICES = new Set([
   "21",
@@ -15,26 +13,6 @@ const TEST_SERVICES = new Set([
   "PR",
   "SF1",
 ]);
-
-interface BusVehicle {
-  vehicle_id: string;
-  route: string;
-  operator: string;
-  direction: string;
-  origin: string;
-  destination: string;
-  latitude: number;
-  longitude: number;
-  bearing: number;
-  recorded_at: string;
-}
-
-interface BusData {
-  generated_at: string;
-  source: string;
-  vehicle_count: number;
-  vehicles: BusVehicle[];
-}
 
 function getTagValue(xml: string, tag: string): string | null {
   const match = xml.match(
@@ -51,7 +29,7 @@ function cleanText(value: string): string {
     .trim();
 }
 
-async function main() {
+export async function fetchBodsData(): Promise<BusData> {
   const apiKey = process.env.BODS_API_KEY;
 
   if (!apiKey) {
@@ -85,10 +63,10 @@ async function main() {
   console.log(`Response size: ${xml.length} characters`);
 
   if (!response.ok) {
-    console.error("BODS request failed.");
-    console.error(`HTTP ${response.status}: ${response.statusText}`);
     console.error(xml.slice(0, 500));
-    process.exit(1);
+    throw new Error(
+      `BODS request failed: HTTP ${response.status}: ${response.statusText}`
+    );
   }
 
   if (!xml.trim()) {
@@ -169,34 +147,13 @@ async function main() {
     vehicles.push(vehicle);
   }
 
-  const data: BusData = {
+  console.log(`Matching vehicles: ${vehicles.length}`);
+
+  return {
     generated_at: new Date().toISOString(),
     source: "BODS",
+    data_age_seconds: 0,
     vehicle_count: vehicles.length,
     vehicles,
   };
-
-  await writeFile(
-    OUTPUT_FILE,
-    `${JSON.stringify(data, null, 2)}\n`,
-    "utf8"
-  );
-
-  console.log(`Matching vehicles: ${vehicles.length}`);
-  console.log(`Wrote ${OUTPUT_FILE}`);
-
-  for (const vehicle of vehicles) {
-    console.log(
-      `${vehicle.route}: ${vehicle.vehicle_id} → ` +
-      `${vehicle.destination} ` +
-      `(${vehicle.latitude}, ${vehicle.longitude})`
-    );
-  }
-
-  console.log("BODS live data processing complete.");
 }
-
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});

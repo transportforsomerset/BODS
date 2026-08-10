@@ -1,4 +1,5 @@
 import type { BusData, Geofence, Vehicle } from "./types";
+import { calculateDistanceMetres } from "./movement";
 
 const BODS_API_URL = "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
 const MAX_VEHICLE_AGE_SECONDS = 10 * 60;
@@ -14,6 +15,35 @@ function cleanText(value: string): string {
     .replace(/_/g, " ")
     .trim();
 }
+
+/* BEGIN: GeoFence Depot */
+function isInsideGeofence(
+  latitude: number,
+  longitude: number,
+  route: string,
+  geofences: Geofence[]
+): boolean {
+  for (const geofence of geofences) {
+    if (geofence.services && !geofence.services.includes(route)) {
+      continue;
+    }
+
+    const distance = calculateDistanceMetres(
+      latitude,
+      longitude,
+      geofence.latitude,
+      geofence.longitude
+    );
+
+    if (distance <= geofence.radius_metres) {
+      console.log(`Ignoring ${route} vehicle inside ${geofence.name} geofence (${Math.round(distance)}m)`);
+      return true;
+    }
+  }
+
+  return false;
+}
+/* END: GeoFence Depot */
 
 export async function fetchBodsData(trackedServices: Set<string>,geofences: Geofence[]): Promise<BusData> {
   const apiKey = process.env.BODS_API_KEY;
@@ -84,6 +114,9 @@ export async function fetchBodsData(trackedServices: Set<string>,geofences: Geof
       !Number.isFinite(latitude) ||
       !Number.isFinite(longitude)
     ) {
+      continue;
+    }
+    if (isInsideGeofence(latitude,longitude,line,geofences)) {
       continue;
     }
 

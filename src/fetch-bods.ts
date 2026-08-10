@@ -34,15 +34,8 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
 
   const response = await fetch(url);
 
-  console.log(
-    `HTTP status: ${response.status} ${response.statusText}`
-  );
-
-  console.log(
-    `Content-Type: ${
-      response.headers.get("content-type") ?? "unknown"
-    }`
-  );
+  console.log(`HTTP status: ${response.status} ${response.statusText}`);
+  console.log(`Content-Type: ${response.headers.get("content-type") ?? "unknown"}`);
 
   const xml = await response.text();
 
@@ -51,9 +44,7 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
   if (!response.ok) {
     console.error(xml.slice(0, 500));
 
-    throw new Error(
-      `BODS request failed: HTTP ${response.status}: ${response.statusText}`
-    );
+    throw new Error(`BODS request failed: HTTP ${response.status}: ${response.statusText}`);
   }
 
   if (!xml.trim()) {
@@ -62,35 +53,25 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
 
   console.log("BODS request succeeded.");
 
-  const vehicleActivities =
-    xml.match(
-      /<VehicleActivity>[\s\S]*?<\/VehicleActivity>/g
-    ) ?? [];
+  const vehicleActivities = xml.match(/<VehicleActivity>[\s\S]*?<\/VehicleActivity>/g) ?? [];
 
-  console.log(
-    `VehicleActivity records found: ${vehicleActivities.length}`
-  );
+  console.log(`VehicleActivity records found: ${vehicleActivities.length}`);
 
   const vehicles: Vehicle[] = [];
 
   for (const activity of vehicleActivities) {
-    const line =
-      getTagValue(activity, "LineRef") ??
-      getTagValue(activity, "PublishedLineName");
-
-    if (!line || !trackedServices.has(line)) {
-      continue;
-    }
-
+    const line = getTagValue(activity, "LineRef") ?? getTagValue(activity, "PublishedLineName");
+    if (!line || !trackedServices.has(line)) {continue;}
+    const recordedAt = getTagValue(activity, "RecordedAtTime");
+    if (!recordedAt) {continue;}
+    const recordedTime = Date.parse(recordedAt);
+    if (Number.isNaN(recordedTime)) {continue;}
+    const ageSeconds = Math.floor((Date.now() - recordedTime) / 1000);
+    if (ageSeconds > MAX_VEHICLE_AGE_SECONDS) {continue;}
     const vehicleId = getTagValue(activity, "VehicleRef");
+    if (!vehicleId) {continue;}
 
-    if (!vehicleId) {
-      continue;
-    }
-
-    const locationMatch = activity.match(
-      /<VehicleLocation>[\s\S]*?<Longitude>([^<]+)<\/Longitude>[\s\S]*?<Latitude>([^<]+)<\/Latitude>[\s\S]*?<\/VehicleLocation>/
-    );
+    const locationMatch = activity.match(/<VehicleLocation>[\s\S]*?<Longitude>([^<]+)<\/Longitude>[\s\S]*?<Latitude>([^<]+)<\/Latitude>[\s\S]*?<\/VehicleLocation>/);
 
     if (!locationMatch) {
       continue;
@@ -106,11 +87,9 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
       continue;
     }
 
-    const operatorCode =
-      getTagValue(activity, "OperatorRef") ?? "";
+    const operatorCode = getTagValue(activity, "OperatorRef") ?? "";
 
-    const journeyId =
-      getTagValue(activity, "DatedVehicleJourneyRef") ?? "";
+    const journeyId = getTagValue(activity, "DatedVehicleJourneyRef") ?? "";
 
     const vehicle: Vehicle = {
       vehicle_id: vehicleId,
@@ -119,17 +98,11 @@ export async function fetchBodsData(trackedServices: Set<string>): Promise<BusDa
       route: line,
       direction:
         getTagValue(activity, "DirectionRef") ?? "",
-      origin: cleanText(
-        getTagValue(activity, "OriginName") ?? ""
-      ),
-      destination: cleanText(
-        getTagValue(activity, "DestinationName") ?? ""
-      ),
+      origin: cleanText(getTagValue(activity, "OriginName") ?? ""),
+      destination: cleanText(getTagValue(activity, "DestinationName") ?? ""),
       latitude,
       longitude,
-      bearing: Number(
-        getTagValue(activity, "Bearing") ?? 0
-      ),
+      bearing: Number(getTagValue(activity, "Bearing") ?? 0),
       speed_mps: 0,
       occupancy: "",
       recorded_at:

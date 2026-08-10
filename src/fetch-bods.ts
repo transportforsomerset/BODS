@@ -10,6 +10,8 @@ const TEST_SERVICES = new Set([
   "28",
   "PR",
   "SF1",
+  "SF2",
+  "SF3"
 ]);
 
 interface BusVehicle {

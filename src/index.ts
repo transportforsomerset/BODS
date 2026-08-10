@@ -7,6 +7,33 @@ const busDataFile = "docs/buses.json";
 const statusFile = "docs/status.json";
 const servicesFile = "data/services.json";
 
+console.log(`Reading ${servicesFile}...`);
+
+const servicesContents = await readFile(servicesFile, "utf8");
+
+let services: string[];
+
+try {
+  const parsedServices: unknown = JSON.parse(servicesContents);
+
+  if (
+    !Array.isArray(parsedServices) ||
+    !parsedServices.every((service) => typeof service === "string")
+  ) {
+    throw new Error("services.json must contain an array of strings.");
+  }
+
+  services = parsedServices;
+} catch (error) {
+  console.error(`ERROR: Could not read ${servicesFile}.`);
+  console.error(error);
+  process.exit(1);
+}
+
+const TRACKED_SERVICES = new Set(services);
+
+console.log(`Tracking services: ${services.join(", ")}`);
+
 console.log("Transport for Somerset bus-data collector");
 
 let busData;

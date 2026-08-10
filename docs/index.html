@@ -188,6 +188,11 @@
       gap: 8px;
       margin: 15px 0 35px;
     }
+    
+    .route-neutral {
+      background: #6b7280;
+      color: white;
+    }
 
     .route-label {
       font-weight: 700;
@@ -579,11 +584,8 @@
 
 function createBusIcon(vehicle) {
 
-  const colourClass =
-    routeColours[vehicle.route] ?? "";
-
-  const bearing =
-    Number(vehicle.bearing ?? 0);
+  const colourClass =  routeColours[vehicle.route] ?? "route-neutral";
+  const bearing = Number(vehicle.bearing ?? 0);
 
   return L.divIcon({
 

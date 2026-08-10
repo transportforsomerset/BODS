@@ -1,12 +1,10 @@
 import type { BusData, Vehicle } from "./types";
 
 const BODS_API_URL = "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
+const MAX_VEHICLE_AGE_SECONDS = 10 * 60;
 
 function getTagValue(xml: string, tag: string): string | null {
-  const match = xml.match(
-    new RegExp(`<${tag}>([^<]*)</${tag}>`)
-  );
-
+  const match = xml.match(new RegExp(`<${tag}>([^<]*)</${tag}>`));
   return match?.[1] ?? null;
 }
 

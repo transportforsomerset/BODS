@@ -78,26 +78,13 @@ L.tileLayer(
   }
 
   function statusTitle(status) {
-
     switch (status) {
-
-      case "live":
-        return "🟢 Live bus data";
-
-      case "backup":
-        return "🟠 Backup bus data";
-
-      case "stale":
-        return "🔴 Stale bus data";
-
-      case "sample":
-        return "🔵 Sample bus data";
-
-      default:
-        return "Bus data";
-
+      case "live":   return "🟢 Live bus data";
+      case "backup": return "🟠 Backup bus data";
+      case "stale":  return "🔴 Stale bus data";
+      case "sample": return "🔵 Sample bus data";
+      default:       return "Bus data";
     }
-
   }
 
 function createBusIcon(vehicle) {
@@ -125,18 +112,31 @@ function createBusIcon(vehicle) {
   });
 }
 
-  function createPopup(vehicle) {
-    const mph = vehicle.speed_mps * 2.23694;
-    return `
-      <div class="popup-route">Route ${vehicle.route}</div>
-      <div class="popup-destination">${vehicle.origin} → ${vehicle.destination}</div>
-      <div class="popup-details">
-        <strong>Operator: </strong>${vehicle.operator}<br>
-        <strong>Vehicle: </strong>${vehicle.vehicle_id}<br>
-        <strong>Speed: </strong>${mph.toFixed(1)} mph<br>
-        <strong>Recorded: </strong>${formatTime(vehicle.recorded_at)}
-      </div>`;
+/* Pop up box for bus icons, offering a little more information to the user. */
+function createPopup(vehicle) {
+  const mph = vehicle.speed_mps * 2.23694;
+
+  const ageSeconds = Math.max(0,Math.floor((Date.now() - new Date(vehicle.recorded_at).getTime()) / 1000));
+
+  let staleMessage = "";
+
+  if (ageSeconds >= 10 * 60) {
+    staleMessage = `<div class="popup-stale">This bus hasn't provided updated information for over 10 minutes.</div>`;
+  } else if (ageSeconds >= 5 * 60) {
+    staleMessage = `<div class="popup-stale">This bus hasn't provided updated information for over 5 minutes.</div>`;
   }
+
+  return `
+    ${staleMessage}
+    <div class="popup-route">Route ${vehicle.route}</div>
+    <div class="popup-destination">${vehicle.origin} → ${vehicle.destination}</div>
+    <div class="popup-details">
+      <strong>Operator: </strong>${vehicle.operator}<br>
+      <strong>Vehicle: </strong>${vehicle.vehicle_id}<br>
+      <strong>Speed: </strong>${mph.toFixed(1)} mph<br>
+      <strong>Recorded: </strong>${formatTime(vehicle.recorded_at)}
+    </div>`;
+}
 
   function updateMarkers() {
     const selectedGroup = serviceGroups.find(group => group.ref === selectedRoute);

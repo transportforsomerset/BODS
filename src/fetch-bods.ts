@@ -1,8 +1,13 @@
 import type { BusData, Geofence, Vehicle } from "./types";
 import { calculateDistanceMetres } from "./movement";
 
+/* URL for the live data source, the DFT. */
 const BODS_API_URL = "https://data.bus-data.dft.gov.uk/api/v1/datafeed";
-const MAX_VEHICLE_AGE_SECONDS = 10 * 60;
+
+/* data stores for tracking timeouts for buses that might have ended service but not turned off their tracking */
+const SECONDS_PER_MINUTE = 60;
+const LIVE_VEHICLE_AGE_SECONDS = 10 * SECONDS_PER_MINUTE;
+const GHOST_VEHICLE_AGE_SECONDS = 20 * SECONDS_PER_MINUTE;
 
 function getTagValue(xml: string, tag: string): string | null {
   const match = xml.match(new RegExp(`<${tag}>([^<]*)</${tag}>`));
@@ -97,7 +102,7 @@ export async function fetchBodsData(trackedServices: Set<string>,geofences: Geof
     const recordedTime = Date.parse(recordedAt);
     if (Number.isNaN(recordedTime)) {continue;}
     const ageSeconds = Math.floor((Date.now() - recordedTime) / 1000);
-    if (ageSeconds > MAX_VEHICLE_AGE_SECONDS) {continue;}
+    if (ageSeconds > GHOST_VEHICLE_AGE_SECONDS) {continue;}
     const vehicleId = getTagValue(activity, "VehicleRef");
     if (!vehicleId) {continue;}
 

@@ -1,9 +1,26 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-11T02:52:06.358Z",
+  "generated_at": "2026-08-11T04:18:03.656Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 0,
-  "vehicle_count": 0,
-  "vehicles": []
+  "data_age_seconds": 16,
+  "vehicle_count": 1,
+  "vehicles": [
+    {
+      "vehicle_id": "FBOS-30006-YK25OHR",
+      "operator": "FBOS",
+      "operator_code": "FBOS",
+      "route": "21",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Sea View Road",
+      "latitude": 51.027611,
+      "longitude": -3.066836,
+      "bearing": 63,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-11T04:17:47+00:00",
+      "journey_id": "101"
+    }
+  ]
 }

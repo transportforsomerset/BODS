@@ -282,6 +282,13 @@
   font-size: 17px;
   font-weight: bold;
 }
+.bus-marker-faded {
+  opacity: 0.65;
+}
+
+.bus-marker-ghost {
+  opacity: 0.3;
+}
 
 .bus-direction {
   position: absolute;

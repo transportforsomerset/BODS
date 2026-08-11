@@ -1,26 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T23:42:54.124Z",
+  "generated_at": "2026-08-11T00:37:10.469Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 532,
-  "vehicle_count": 1,
-  "vehicles": [
-    {
-      "vehicle_id": "FBOS-30006-YK25OHR",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "21",
-      "direction": "outbound",
-      "origin": "Castle Way",
-      "destination": "Old Works Road",
-      "latitude": 51.017343,
-      "longitude": -3.085895,
-      "bearing": 0,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-10T23:34:02+00:00",
-      "journey_id": "139"
-    }
-  ]
+  "data_age_seconds": 0,
+  "vehicle_count": 0,
+  "vehicles": []
 }

@@ -100,19 +100,30 @@ L.tileLayer(
 
   }
 
-  function createBusIcon(vehicle) {
-    const colourClass =  routeColours[vehicle.route] ?? "route-neutral";
-    const bearing = Number(vehicle.bearing ?? 0);
-    return L.divIcon({
-      className: "",
-      html: `<div class="bus-marker ${colourClass}" style="position: relative;">${vehicle.route}
-             <div class="bus-direction" style="transform: rotate(${bearing}deg)"></div>
-             </div>`,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18],
-      popupAnchor: [0, -18]
-    });
+function createBusIcon(vehicle) {
+  const colourClass = routeColours[vehicle.route] ?? "route-neutral";
+  const bearing = Number(vehicle.bearing ?? 0);
+
+  const ageSeconds = Math.max(0,Math.floor((Date.now() - new Date(vehicle.recorded_at).getTime()) / 1000));
+
+  let ageClass = "";
+
+  if (ageSeconds >= 10 * 60) {
+    ageClass = " bus-marker-ghost";
+  } else if (ageSeconds >= 5 * 60) {
+    ageClass = " bus-marker-faded";
   }
+
+  return L.divIcon({
+    className: "",
+    html: `<div class="bus-marker ${colourClass}${ageClass}" style="position: relative;">${vehicle.route}
+           <div class="bus-direction" style="transform: rotate(${bearing}deg)"></div>
+           </div>`,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -18]
+  });
+}
 
   function createPopup(vehicle) {
     const mph = vehicle.speed_mps * 2.23694;

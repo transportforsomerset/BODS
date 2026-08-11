@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-11T22:06:26.681Z",
+  "generated_at": "2026-08-11T22:08:17.347Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 29,
+  "data_age_seconds": 33,
   "vehicle_count": 5,
   "vehicles": [
     {
@@ -14,12 +14,12 @@
       "direction": "inbound",
       "origin": "Sea View Road",
       "destination": "Castle Way",
-      "latitude": 51.130008,
-      "longitude": -2.999977,
-      "bearing": 162,
+      "latitude": 51.130004,
+      "longitude": -3.000021,
+      "bearing": 346,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-11T22:05:57+00:00",
+      "recorded_at": "2026-08-11T22:07:50+00:00",
       "journey_id": "134"
     },
     {
@@ -30,12 +30,12 @@
       "direction": "inbound",
       "origin": "Dobree Park",
       "destination": "Castle Way",
-      "latitude": 51.014362,
-      "longitude": -3.112644,
-      "bearing": 106,
+      "latitude": 51.014807,
+      "longitude": -3.104991,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-11T22:05:58+00:00",
+      "recorded_at": "2026-08-11T22:07:50+00:00",
       "journey_id": "200"
     },
     {
@@ -46,12 +46,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Dobree Park",
-      "latitude": 51.013156,
-      "longitude": -3.119832,
-      "bearing": 111,
+      "latitude": 51.013241,
+      "longitude": -3.120295,
+      "bearing": 290,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-11T22:05:59+00:00",
+      "recorded_at": "2026-08-11T22:07:44+00:00",
       "journey_id": "199"
     },
     {
@@ -62,12 +62,12 @@
       "direction": "outbound",
       "origin": "Silk Mills P R",
       "destination": "The Parade",
-      "latitude": 51.031468,
-      "longitude": -3.100591,
-      "bearing": 307,
+      "latitude": 51.031698,
+      "longitude": -3.107649,
+      "bearing": 290,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-11T22:05:57+00:00",
+      "recorded_at": "2026-08-11T22:08:13+00:00",
       "journey_id": "157"
     },
     {
@@ -78,12 +78,12 @@
       "direction": "outbound",
       "origin": "Castle Way",
       "destination": "Lethbridge Arms",
-      "latitude": 51.025388,
-      "longitude": -3.120186,
-      "bearing": 285,
+      "latitude": 51.027904,
+      "longitude": -3.133034,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-11T22:06:09+00:00",
+      "recorded_at": "2026-08-11T22:08:09+00:00",
       "journey_id": "147"
     }
   ]

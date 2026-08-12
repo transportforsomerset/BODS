@@ -1,9 +1,42 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-12T02:35:41.152Z",
+  "generated_at": "2026-08-12T04:26:43.302Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 0,
-  "vehicle_count": 0,
-  "vehicles": []
+  "data_age_seconds": 26,
+  "vehicle_count": 2,
+  "vehicles": [
+    {
+      "vehicle_id": "FBOS-30007-YK25OHS",
+      "operator": "FBOS",
+      "operator_code": "FBOS",
+      "route": "22A",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Dobree Park",
+      "latitude": 51.014718,
+      "longitude": -3.105015,
+      "bearing": 0,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-12T04:26:17+00:00",
+      "journey_id": "101"
+    },
+    {
+      "vehicle_id": "FBOS-30009-YK25OHU",
+      "operator": "FBOS",
+      "operator_code": "FBOS",
+      "route": "21",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Sea View Road",
+      "latitude": 51.07159,
+      "longitude": -3.021493,
+      "bearing": 3,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-12T04:26:33+00:00",
+      "journey_id": "101"
+    }
+  ]
 }

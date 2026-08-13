@@ -43,7 +43,9 @@ L.tileLayer(
   const routeColours = {
     "21": "route-21",
     "22": "route-22",
-    "28": "route-28"
+    "25": "route-25",
+    "28": "route-28",
+    "pr": "route-pr",
   };
 
   function formatAge(seconds) {

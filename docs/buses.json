@@ -1,9 +1,58 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-13T02:41:31.989Z",
+  "generated_at": "2026-08-13T04:32:11.065Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 0,
-  "vehicle_count": 0,
-  "vehicles": []
+  "data_age_seconds": 35,
+  "vehicle_count": 3,
+  "vehicles": [
+    {
+      "vehicle_id": "FBOS-30001-YK25OHJ",
+      "operator": "FBOS",
+      "operator_code": "FBOS",
+      "route": "22A",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Dobree Park",
+      "latitude": 51.013168,
+      "longitude": -3.125882,
+      "bearing": 247,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-13T04:31:36+00:00",
+      "journey_id": "101"
+    },
+    {
+      "vehicle_id": "FBOS-30002-YK25OHL",
+      "operator": "FBOS",
+      "operator_code": "FBOS",
+      "route": "21",
+      "direction": "outbound",
+      "origin": "Castle Way",
+      "destination": "Sea View Road",
+      "latitude": 51.098498,
+      "longitude": -3.003763,
+      "bearing": 27,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-13T04:32:03+00:00",
+      "journey_id": "101"
+    },
+    {
+      "vehicle_id": "SDVN-15325",
+      "operator": "SDVN",
+      "operator_code": "SDVN",
+      "route": "24",
+      "direction": "outbound",
+      "origin": "Bus Station",
+      "destination": "Silk Mills P&amp;R",
+      "latitude": 50.975243,
+      "longitude": -3.237913,
+      "bearing": 90,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-13T04:32:07+00:00",
+      "journey_id": "101"
+    }
+  ]
 }

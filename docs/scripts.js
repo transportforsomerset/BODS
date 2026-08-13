@@ -182,14 +182,16 @@ function buildRouteButtons() {
 
     const busLabel = count === 1 ? "bus" : "buses";
     button.textContent = `${label} · ${count} ${busLabel}`;
-
     button.addEventListener("click", () => {
-      selectedRoute = group.ref;
-      document.querySelectorAll(".route-button").forEach(item =>item.classList.remove("selected"));
-      button.classList.add("selected");
+      if (selectedRoute === group.ref) { selectedRoute = "all"; } else { selectedRoute = group.ref; }
+      document.querySelectorAll(".route-button").forEach(item => item.classList.remove("selected"));
+      if (selectedRoute === "all") {
+        document.querySelector('[data-route="all"]').classList.add("selected");
+      } else {
+        button.classList.add("selected");
+      }
       updateMarkers();
     });
-
     routeBar.appendChild(button);
   }
 

@@ -19,20 +19,10 @@
   };
   fullscreenControl.addTo(map);
   document.addEventListener("fullscreenchange", () => {map.invalidateSize();});
-
-L.tileLayer(
-      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        maxZoom: 19,
-        attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
-    }
-  ).addTo(map);
-
-  map.setView(
-    [51.0149, -3.1024],
-    11
-  );
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+               {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}
+             ).addTo(map);
+  map.setView([51.0149, -3.1024], 11);
 
   const markers = new Map();
 
@@ -54,34 +44,16 @@ L.tileLayer(
   };
 
   function formatAge(seconds) {
-
-    if (seconds < 10) {
-      return "Updated just now";
-    }
-
-    if (seconds < 60) {
-      return `Updated ${seconds} seconds ago`;
-    }
-
+    if (seconds < 10) { return "Updated just now"; }
+    if (seconds < 60) { return `Updated ${seconds} seconds ago`; }
     const minutes = Math.floor(seconds / 60);
-
-    if (minutes < 60) {
-      return `Updated ${minutes} minute${minutes === 1 ? "" : "s"} ago`;
-    }
-
+    if (minutes < 60) { return `Updated ${minutes} minute${minutes === 1 ? "" : "s"} ago`; }
     const hours = Math.floor(minutes / 60);
-
     return `Updated ${hours} hour${hours === 1 ? "" : "s"} ago`;
   }
 
   function formatTime(timestamp) {
-
-    return new Date(timestamp).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    });
-
+    return new Date(timestamp).toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", second: "2-digit"});
   }
 
   function statusTitle(status) {
@@ -209,78 +181,30 @@ function buildRouteButtons() {
     routeBar.appendChild(button);
   }
 
-  const allButton =
-    document.querySelector(
-      '[data-route="all"]'
-    );
-
-  allButton.addEventListener(
-    "click",
-    () => {
-      selectedRoute = "all";
-
-      document
-        .querySelectorAll(".route-button")
-        .forEach(
-          item =>
-            item.classList.remove("selected")
-        );
-
-      allButton.classList.add("selected");
-      updateMarkers();
-    }
-  );
+  const allButton = document.querySelector('[data-route="all"]');
+  allButton.addEventListener("click", () => {
+    selectedRoute = "all";
+    document.querySelectorAll(".route-button").forEach(item =>item.classList.remove("selected"));
+    allButton.classList.add("selected");
+    updateMarkers();
+  });
 }
 
   let firstLoad = true;
 
   async function loadData() {
-
     try {
-
       const cacheBust = Date.now();
+      const [busResponse,statusResponse,servicesResponse] = await Promise.all([
+        fetch(`buses.json?${cacheBust}`,    {cache: "no-store"}),
+        fetch(`status.json?${cacheBust}`,   {cache: "no-store"}),
+        fetch(`services.json?${cacheBust}`, {cache: "no-store"})
+      ]);
 
-      const [
-  busResponse,
-  statusResponse,
-  servicesResponse
-] = await Promise.all([
-  fetch(
-    `buses.json?${cacheBust}`,
-    {
-      cache: "no-store"
-    }
-  ),
-  fetch(
-    `status.json?${cacheBust}`,
-    {
-      cache: "no-store"
-    }
-  ),
-  fetch(
-    `services.json?${cacheBust}`,
-    {
-      cache: "no-store"
-    }
-  )
-]);
-
-      if (!busResponse.ok) {
-        throw new Error(
-          `Bus data HTTP ${busResponse.status}`
-        );
-      }
-
-      if (!statusResponse.ok) {
-        throw new Error(
-          `Status HTTP ${statusResponse.status}`
-        );
-      }
-      if (!servicesResponse.ok) {
-        throw new Error(
-          `Services HTTP ${servicesResponse.status}`
-        );
-      }
+      // Did something go wrong with the data fetching??
+      if (!busResponse.ok)      { throw new Error(`Bus data HTTP ${busResponse.status}`); }
+      if (!statusResponse.ok)   { throw new Error(`Status HTTP ${statusResponse.status}`); }
+      if (!servicesResponse.ok) { throw new Error(`Services HTTP ${servicesResponse.status}`); }
 
       const data    = await busResponse.json();
       const status  = await statusResponse.json();
@@ -288,108 +212,36 @@ function buildRouteButtons() {
       serviceGroups = await servicesResponse.json();
 
       allVehicles = data.vehicles;
-
       updateMarkers();
+      const generated = new Date(status.generated_at);
+      const ageSeconds = Math.max(0,Math.floor((Date.now() - generated.getTime()) / 1000));
 
-      const generated =
-        new Date(status.generated_at);
-
-      const ageSeconds =
-        Math.max(
-          0,
-          Math.floor(
-            (Date.now() -
-              generated.getTime()) / 1000
-          )
-        );
-
-      const statusElement =
-        document.getElementById("status");
-
-      statusElement.className =
-        `status ${status.status}`;
-
+      const statusElement = document.getElementById("status");
+      statusElement.className = `status ${status.status}`;
       statusElement.innerHTML = `
-
-        <div class="status-title">
-          ${statusTitle(status.status)}
-        </div>
-
-        <div class="status-age">
-          ${formatAge(ageSeconds)}
-        </div>
-
+        <div class="status-title">${statusTitle(status.status)}</div>
+        <div class="status-age">${formatAge(ageSeconds)}</div>
         <div class="status-details">
           ${data.vehicle_count}
           vehicles ·
           Data timestamp
           ${formatTime(status.generated_at)}
-        </div>
-
-      `;
-
-      if (
-        firstLoad &&
-        data.vehicles.length > 0
-      ) {
-
-        const bounds =
-          L.latLngBounds(
-            data.vehicles.map(
-              vehicle => [
-                vehicle.latitude,
-                vehicle.longitude
-              ]
-            )
-          );
-
-        map.fitBounds(
-          bounds.pad(0.15)
-        );
-
+        </div>`;
+      if (firstLoad && data.vehicles.length > 0) {
+        const bounds = L.latLngBounds(data.vehicles.map(vehicle => [vehicle.latitude,vehicle.longitude]));
+        map.fitBounds(bounds.pad(0.15));
         firstLoad = false;
-
       }
-
-      if (
-        document.querySelectorAll(
-          ".route-button"
-        ).length === 1
-      ) {
-
+      if (document.querySelectorAll(".route-button").length === 1) {
         buildRouteButtons();
-
       }
-
     } catch (error) {
-
       console.error(error);
-
-      const statusElement =
-        document.getElementById("status");
-
-      statusElement.className =
-        "status stale";
-
-      statusElement.innerHTML = `
-
-        <div class="status-title">
-          🔴 Data unavailable
-        </div>
-
-        <div class="status-age">
-          Unable to retrieve bus data.
-        </div>
-
-      `;
-
+      const statusElement = document.getElementById("status");
+      statusElement.className = "status stale";
+      statusElement.innerHTML = `<div class="status-title">🔴 Data unavailable</div><div class="status-age">Unable to retrieve bus data.</div>`;
     }
-
   }
 
   loadData();
-
-  setInterval(
-    loadData,
-    10000
-  );
+  setInterval(loadData,10000); // reload data every 10 seconds.

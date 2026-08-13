@@ -1,42 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-12T23:09:58.082Z",
+  "generated_at": "2026-08-13T00:00:48.029Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1011,
-  "vehicle_count": 2,
-  "vehicles": [
-    {
-      "vehicle_id": "FBOS-30002-YK25OHL",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "22",
-      "direction": "inbound",
-      "origin": "Dobree Park",
-      "destination": "Castle Way",
-      "latitude": 51.01509,
-      "longitude": -3.095385,
-      "bearing": 78,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-12T23:09:40+00:00",
-      "journey_id": "202"
-    },
-    {
-      "vehicle_id": "FBOS-63700_-_BN75NWH",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "28A",
-      "direction": "inbound",
-      "origin": "Lethbridge Arms",
-      "destination": "Castle Way",
-      "latitude": 51.014779,
-      "longitude": -3.102637,
-      "bearing": 143,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-12T22:53:07+00:00",
-      "journey_id": "150"
-    }
-  ]
+  "data_age_seconds": 0,
+  "vehicle_count": 0,
+  "vehicles": []
 }

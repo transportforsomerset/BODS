@@ -244,4 +244,4 @@ function buildRouteButtons() {
   }
 
   loadData();
-  setInterval(loadData,10000); // reload data every 10 seconds.
+  setInterval(loadData,30000); // reload data every 30 seconds.

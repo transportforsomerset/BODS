@@ -30,18 +30,30 @@
   let serviceGroups = [];
   let selectedRoute = "all";
 
+  /* Colours for each route, not including route variations. */
   const routeColours = {
     "21":  "route-21",
-    "21A": "route-21",
     "22":  "route-22",
-    "22A": "route-22",
-    "X22": "route-22",
     "25":  "route-25",
-    "25A": "route-25",
     "28":  "route-28",
-    "28A": "route-28",
     "PR":  "route-pr",
   };
+
+  /* Route variations to use the same main route colour. */
+  const routeColourGroups = {
+    "21": ["21A"],
+    "22": ["22A", "22C", "X22"],
+    "25": ["25A"],
+    "28": ["28A"],
+  };
+
+  /* Check for route variation and use main route colours, called by createBusIcon(). */ 
+  function getRouteColour(route) {
+    for (const [parentRoute, variants] of Object.entries(routeColourGroups)) {
+      if (variants.includes(route)) { return routeColours[parentRoute]; }
+    }
+  return routeColours[route] ?? "route-neutral";
+  }
 
   function formatAge(seconds) {
     if (seconds < 10) { return "Updated just now"; }
@@ -67,7 +79,7 @@
   }
 
 function createBusIcon(vehicle) {
-  const colourClass = routeColours[vehicle.route] ?? "route-neutral";
+  const colourClass = getRouteColour(vehicle.route);
   const bearing = Number(vehicle.bearing ?? 0);
 
   const ageSeconds = Math.max(0,Math.floor((Date.now() - new Date(vehicle.recorded_at).getTime()) / 1000));

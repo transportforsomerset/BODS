@@ -43,8 +43,12 @@ L.tileLayer(
   const routeColours = {
     "21": "route-21",
     "22": "route-22",
+    "22A": "route-22",
+    "X22": "route-22",
     "25": "route-25",
+    "25A": "route-25",
     "28": "route-28",
+    "28A": "route-28",
     "pr": "route-pr",
   };
 

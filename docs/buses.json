@@ -1,27 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:49:07.564Z",
+  "generated_at": "2026-08-14T23:51:08.979Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1125,
-  "vehicle_count": 2,
+  "data_age_seconds": 962,
+  "vehicle_count": 1,
   "vehicles": [
-    {
-      "vehicle_id": "FDOR-47407",
-      "operator": "FDOR",
-      "operator_code": "FDOR",
-      "route": "1",
-      "direction": "inbound",
-      "origin": "Rip Croft Shelter",
-      "destination": "Weymouth King s Statue K4",
-      "latitude": 50.611691,
-      "longitude": -2.453897,
-      "bearing": 36,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-14T23:30:22+00:00",
-      "journey_id": "226"
-    },
     {
       "vehicle_id": "SDVN-66109",
       "operator": "SDVN",

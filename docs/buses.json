@@ -1,27 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:35:05.810Z",
+  "generated_at": "2026-08-14T23:37:07.502Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1089,
-  "vehicle_count": 3,
+  "data_age_seconds": 405,
+  "vehicle_count": 2,
   "vehicles": [
-    {
-      "vehicle_id": "FBOS-63704_-_BN75NWM",
-      "operator": "FBOS",
-      "operator_code": "FBOS",
-      "route": "28A",
-      "direction": "outbound",
-      "origin": "Lethbridge Arms",
-      "destination": "Butlins",
-      "latitude": 51.206796,
-      "longitude": -3.464414,
-      "bearing": 0,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-14T23:16:56+00:00",
-      "journey_id": "149"
-    },
     {
       "vehicle_id": "FDOR-47407",
       "operator": "FDOR",
@@ -46,12 +30,12 @@
       "direction": "inbound",
       "origin": "Court Royal",
       "destination": "St Martins Primary",
-      "latitude": 50.736866,
-      "longitude": -3.431601,
+      "latitude": 50.736847,
+      "longitude": -3.431609,
       "bearing": 228,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:34:46+00:00",
+      "recorded_at": "2026-08-14T23:35:06+00:00",
       "journey_id": "234"
     }
   ]

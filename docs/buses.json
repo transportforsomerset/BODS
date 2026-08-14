@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:11:09.389Z",
+  "generated_at": "2026-08-14T23:13:06.778Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1057,
+  "data_age_seconds": 1174,
   "vehicle_count": 8,
   "vehicles": [
     {
@@ -62,12 +62,12 @@
       "direction": "outbound",
       "origin": "Lethbridge Arms",
       "destination": "Butlins",
-      "latitude": 51.200274,
-      "longitude": -3.472514,
-      "bearing": 304,
+      "latitude": 51.203936,
+      "longitude": -3.477932,
+      "bearing": 340,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:11:05+00:00",
+      "recorded_at": "2026-08-14T23:12:31+00:00",
       "journey_id": "149"
     },
     {
@@ -78,12 +78,12 @@
       "direction": "inbound",
       "origin": "Rip Croft Shelter",
       "destination": "Weymouth King s Statue K4",
-      "latitude": 50.557132,
-      "longitude": -2.441595,
-      "bearing": 50,
+      "latitude": 50.560361,
+      "longitude": -2.447691,
+      "bearing": 338,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:10:50+00:00",
+      "recorded_at": "2026-08-14T23:12:52+00:00",
       "journey_id": "226"
     },
     {
@@ -110,12 +110,12 @@
       "direction": "outbound",
       "origin": "North Park Road",
       "destination": "Court Royal",
-      "latitude": 50.731144,
-      "longitude": -3.448477,
-      "bearing": 84,
+      "latitude": 50.737324,
+      "longitude": -3.430963,
+      "bearing": 60,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:10:54+00:00",
+      "recorded_at": "2026-08-14T23:12:55+00:00",
       "journey_id": "227"
     },
     {
@@ -126,12 +126,12 @@
       "direction": "inbound",
       "origin": "Court Royal",
       "destination": "North Park Road",
-      "latitude": 50.731049,
-      "longitude": -3.539588,
+      "latitude": 50.734997,
+      "longitude": -3.535746,
       "bearing": 336,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:10:48+00:00",
+      "recorded_at": "2026-08-14T23:12:49+00:00",
       "journey_id": "232"
     }
   ]

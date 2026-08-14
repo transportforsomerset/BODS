@@ -57,7 +57,7 @@ export async function fetchBodsData(trackedServices: Set<string>,geofences: Geof
     throw new Error("BODS_API_KEY secret is not set.");
   }
 
-  const boundingBox = "-3.31,50.84,-2.93,51.14";
+  const boundingBox = "-3.55,51.27,-2.35,50.48";
 
   const url = new URL(BODS_API_URL);
 

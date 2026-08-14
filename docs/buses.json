@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:31:05.396Z",
+  "generated_at": "2026-08-14T23:33:06.496Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1076,
+  "data_age_seconds": 1197,
   "vehicle_count": 5,
   "vehicles": [
     {
@@ -46,12 +46,12 @@
       "direction": "inbound",
       "origin": "Court Royal",
       "destination": "St Martins Primary",
-      "latitude": 50.750019,
-      "longitude": -3.399719,
-      "bearing": 180,
+      "latitude": 50.743557,
+      "longitude": -3.41757,
+      "bearing": 246,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:30:43+00:00",
+      "recorded_at": "2026-08-14T23:32:44+00:00",
       "journey_id": "234"
     },
     {

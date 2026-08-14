@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:33:06.496Z",
+  "generated_at": "2026-08-14T23:35:05.810Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 1197,
-  "vehicle_count": 5,
+  "data_age_seconds": 1089,
+  "vehicle_count": 3,
   "vehicles": [
     {
       "vehicle_id": "FBOS-63704_-_BN75NWM",
@@ -46,45 +46,13 @@
       "direction": "inbound",
       "origin": "Court Royal",
       "destination": "St Martins Primary",
-      "latitude": 50.743557,
-      "longitude": -3.41757,
-      "bearing": 246,
+      "latitude": 50.736866,
+      "longitude": -3.431601,
+      "bearing": 228,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-14T23:32:44+00:00",
+      "recorded_at": "2026-08-14T23:34:46+00:00",
       "journey_id": "234"
-    },
-    {
-      "vehicle_id": "SDVN-66120",
-      "operator": "SDVN",
-      "operator_code": "SDVN",
-      "route": "4",
-      "direction": "inbound",
-      "origin": "Court Royal",
-      "destination": "North Park Road",
-      "latitude": 50.736114,
-      "longitude": -3.535503,
-      "bearing": 66,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-14T23:13:09+00:00",
-      "journey_id": "232"
-    },
-    {
-      "vehicle_id": "SDVN-80262",
-      "operator": "SDVN",
-      "operator_code": "SDVN",
-      "route": "12",
-      "direction": "inbound",
-      "origin": "Town Square",
-      "destination": "ASDA",
-      "latitude": 50.480011,
-      "longitude": -3.54978,
-      "bearing": 0,
-      "speed_mps": 0,
-      "occupancy": "",
-      "recorded_at": "2026-08-14T23:13:09+00:00",
-      "journey_id": "254"
     }
   ]
 }

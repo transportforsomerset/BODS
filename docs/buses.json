@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T03:47:05.530Z",
+  "generated_at": "2026-08-15T03:49:05.947Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 415,
-  "vehicle_count": 2,
+  "data_age_seconds": 21,
+  "vehicle_count": 3,
   "vehicles": [
     {
       "vehicle_id": "FDOR-63053",
@@ -14,12 +14,12 @@
       "direction": "outbound",
       "origin": "Weymouth King s Statue K4",
       "destination": "Rip Croft Shelter",
-      "latitude": 50.598819,
-      "longitude": -2.470392,
-      "bearing": 240,
+      "latitude": 50.593524,
+      "longitude": -2.47486,
+      "bearing": 156,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-15T03:46:58+00:00",
+      "recorded_at": "2026-08-15T03:48:44+00:00",
       "journey_id": "301"
     },
     {
@@ -27,16 +27,32 @@
       "operator": "SDVN",
       "operator_code": "SDVN",
       "route": "4",
+      "direction": "inbound",
+      "origin": "Court Royal",
+      "destination": "St Davids Station",
+      "latitude": 50.749924,
+      "longitude": -3.400428,
+      "bearing": 264,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-15T03:48:47+00:00",
+      "journey_id": "302"
+    },
+    {
+      "vehicle_id": "SDVN-66102",
+      "operator": "SDVN",
+      "operator_code": "SDVN",
+      "route": "4",
       "direction": "outbound",
       "origin": "St Davids Station",
       "destination": "Court Royal",
-      "latitude": 50.750034,
-      "longitude": -3.419846,
-      "bearing": 60,
+      "latitude": 50.729801,
+      "longitude": -3.543088,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-15T03:40:10+00:00",
-      "journey_id": "301"
+      "recorded_at": "2026-08-15T03:49:00+00:00",
+      "journey_id": "303"
     }
   ]
 }

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-15T04:11:04.545Z",
+  "generated_at": "2026-08-15T04:13:09.686Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 28,
+  "data_age_seconds": 66,
   "vehicle_count": 3,
   "vehicles": [
     {
@@ -19,7 +19,7 @@
       "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-15T04:10:36+00:00",
+      "recorded_at": "2026-08-15T04:12:36+00:00",
       "journey_id": "302"
     },
     {
@@ -30,12 +30,12 @@
       "direction": "inbound",
       "origin": "Court Royal",
       "destination": "St Davids Station",
-      "latitude": 50.724998,
-      "longitude": -3.525219,
-      "bearing": 270,
+      "latitude": 50.725563,
+      "longitude": -3.526759,
+      "bearing": 0,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-15T04:10:43+00:00",
+      "recorded_at": "2026-08-15T04:12:03+00:00",
       "journey_id": "302"
     },
     {
@@ -46,12 +46,12 @@
       "direction": "outbound",
       "origin": "St Davids Station",
       "destination": "Court Royal",
-      "latitude": 50.72504,
-      "longitude": -3.472269,
-      "bearing": 48,
+      "latitude": 50.727734,
+      "longitude": -3.466767,
+      "bearing": 60,
       "speed_mps": 0,
       "occupancy": "",
-      "recorded_at": "2026-08-15T04:10:47+00:00",
+      "recorded_at": "2026-08-15T04:12:48+00:00",
       "journey_id": "303"
     }
   ]

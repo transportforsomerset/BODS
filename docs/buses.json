@@ -1,9 +1,26 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T23:59:08.445Z",
+  "generated_at": "2026-08-15T00:01:08.563Z",
   "source": "live",
   "status": "live",
-  "data_age_seconds": 0,
-  "vehicle_count": 0,
-  "vehicles": []
+  "data_age_seconds": 5,
+  "vehicle_count": 1,
+  "vehicles": [
+    {
+      "vehicle_id": "SDVN-19008",
+      "operator": "SDVN",
+      "operator_code": "SDVN",
+      "route": "4",
+      "direction": "inbound",
+      "origin": "Court Royal",
+      "destination": "St Martins Primary",
+      "latitude": 50.694428,
+      "longitude": -3.520927,
+      "bearing": 228,
+      "speed_mps": 0,
+      "occupancy": "",
+      "recorded_at": "2026-08-15T00:01:03+00:00",
+      "journey_id": "234"
+    }
+  ]
 }

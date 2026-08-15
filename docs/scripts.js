@@ -210,7 +210,7 @@ function buildRouteButtons() {
     try {
 //    const cacheBust = "?" + Date.now();
       const cacheBust = "";
-      const dataURL = "https://busopendata.transportforsomerset.co.uk/",
+      const dataURL = "https://busopendata.transportforsomerset.co.uk/";
       const [busResponse,statusResponse,servicesResponse] = await Promise.all([
         fetch(`${dataURL}buses.json${cacheBust}`,    {cache: "no-store"}),
         fetch(`${dataURL}status.json${cacheBust}`,   {cache: "no-store"}),

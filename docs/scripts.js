@@ -214,7 +214,7 @@ function buildRouteButtons() {
       const [busResponse,statusResponse,servicesResponse] = await Promise.all([
         fetch(`${dataURL}buses.json${cacheBust}`,    {cache: "no-store"}),
         fetch(`${dataURL}status.json${cacheBust}`,   {cache: "no-store"}),
-        fetch(`services.json?${cacheBust}`, {cache: "no-store"})
+        fetch(`${dataURL}services.json?${cacheBust}`, {cache: "no-store"})
       ]);
 
       // Did something go wrong with the data fetching??
